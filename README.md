@@ -9,7 +9,9 @@ Features in this first pre release:
     Skill Procotoll + calendar for date selection
     Database storage (on device, so far also unencrypted)
     User screen that looks pretty but is also pretty useless
+## Download and Installation
 
+You can download the prerelease version [here](https://github.com/EvelineFlowercrown/DBT4C_Redo/releases/tag/v.0.0.1)
 
 ## Screenshots
 
