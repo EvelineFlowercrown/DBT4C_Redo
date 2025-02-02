@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 
@@ -8,7 +7,7 @@ import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 class CalendarWidget extends StatefulWidget{
   bool selectedDone = false;
   final bool showStatus;
-  CalendarWidget({this.showStatus = false});
+  CalendarWidget({super.key, this.showStatus = false});
   DateTime selectedDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   List<DateTime>? newDates;
   void addThing(List<DateTime> times) => createState().addDCardEventList(times);
@@ -20,7 +19,7 @@ List<DateTime> listDates = [];
 class _CalendarWidgetState extends State<CalendarWidget>{
 
   //DateTime _currentDate = DateTime.now(); not important yet
-  EventList<Event> _markedDate = new EventList<Event>(
+  final EventList<Event> _markedDate = EventList<Event>(
     events: {},
   );
   static Widget _testIcon(String day) => Container(
@@ -45,7 +44,7 @@ class _CalendarWidgetState extends State<CalendarWidget>{
     for (int i = 0; i < listDates.length; i++){
       _markedDate.add(
         listDates[i],
-        new Event(
+        Event(
           date: listDates[i],
           title: 'Event1',
           icon: _testIcon(
@@ -75,13 +74,14 @@ class _CalendarWidgetState extends State<CalendarWidget>{
         return event.icon;
       },
       onDayPressed: (date, events){
-        this.setState(() {
+        setState(() {
           widget.selectedDate = date;
           if(listDates.contains(date)){
             widget.selectedDone = true;
           }
-          else
+          else {
             widget.selectedDone = false;
+          }
         });
       },
       selectedDateTime: widget.selectedDate,

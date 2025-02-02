@@ -1,5 +1,4 @@
 import 'package:dbt4c_rebuild/helpers/contentCard.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DCardPreview extends StatefulWidget {
@@ -8,7 +7,7 @@ class DCardPreview extends StatefulWidget {
   final String mood;
   final String tension;
   final String misery;
-  const DCardPreview({required this.eventNames, required this.newWay, required this.mood, required this.tension, required this.misery});
+  const DCardPreview({super.key, required this.eventNames, required this.newWay, required this.mood, required this.tension, required this.misery});
   @override
   _DCardPreviewState createState() => _DCardPreviewState();
 }
@@ -56,7 +55,7 @@ class _DCardPreviewState extends State<DCardPreview> {
 
                       Padding(padding: EdgeInsets.all(5)),
 
-                      Text("Neuer Weg: " + widget.newWay.toString(),
+                      Text("Neuer Weg: ${widget.newWay}",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.white,fontSize: 16),),
@@ -69,7 +68,7 @@ class _DCardPreviewState extends State<DCardPreview> {
                       ),
 
                       Padding(padding: EdgeInsets.all(5)),
-                      Text("Stimmung: " + widget.mood.toString(),
+                      Text("Stimmung: ${widget.mood}",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.white,fontSize: 16),),
@@ -86,7 +85,7 @@ class _DCardPreviewState extends State<DCardPreview> {
 
                       Padding(padding: EdgeInsets.all(5)),
 
-                      Text("Elend: " + widget.misery.toString(),
+                      Text("Elend: ${widget.misery}",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.white,fontSize: 16),),
@@ -99,7 +98,7 @@ class _DCardPreviewState extends State<DCardPreview> {
                       ),
 
                       Padding(padding: EdgeInsets.all(5)),
-                      Text("Anspannung: " + widget.tension.toString(),
+                      Text("Anspannung: ${widget.tension}",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.white,fontSize: 16),),

@@ -5,7 +5,7 @@ class ExpandedWidgetPanel extends StatefulWidget{
   final Widget child;
   final Widget? leadingTitle;
   final Color backgroundColor;
-  ExpandedWidgetPanel({this.leadingTitle, required this.title, required this.child, this.backgroundColor = Colors.white});
+  const ExpandedWidgetPanel({super.key, this.leadingTitle, required this.title, required this.child, this.backgroundColor = Colors.white});
   @override
   _ExpandedWidgetPanel createState() => _ExpandedWidgetPanel();
 }

@@ -12,7 +12,7 @@ import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'diarycardtemplate.dart';
 
 class SkillFinder extends StatelessWidget{
-  const SkillFinder();
+  const SkillFinder({super.key});
   @override
   Widget build(BuildContext context)
   {
@@ -23,7 +23,7 @@ class SkillFinder extends StatelessWidget{
 }
 
 class SkillFinderState extends StatefulWidget{
-  const SkillFinderState();
+  const SkillFinderState({super.key});
   @override
   _SkillFinderState createState() => _SkillFinderState();
 }
@@ -31,7 +31,7 @@ class SkillFinderState extends StatefulWidget{
 
 
 class _SkillFinderState extends State<SkillFinderState>{
-  EventList<Event> eventList = new EventList(events: {DateTime.now() : [new Event(date: DateTime.now())]});
+  EventList<Event> eventList = EventList(events: {DateTime.now() : [Event(date: DateTime.now())]});
   DateTime? selectedDate;
 
   String event1 = "Keine Events Vorhanden";
@@ -132,7 +132,7 @@ class _SkillFinderState extends State<SkillFinderState>{
 
   getDates() async{
     List<String> dateStrings = [];
-    Map<DateTime,List<Event>> temp = Map<DateTime,List<Event>>();
+    Map<DateTime,List<Event>> temp = <DateTime,List<Event>>{};
     await AbstractDatabaseService.getFullColumn("DiaryCard", "PrimaryKey").then((value) => dateStrings = value!);
     for(String date in dateStrings){
       DateTime converted = DateTime.parse(StringUtil.getRetardedDateFormat(date));
@@ -202,7 +202,7 @@ class _SkillFinderState extends State<SkillFinderState>{
                     return event.icon;
                   },
                   onDayPressed: (date, events){
-                    this.setState(() {
+                    setState(() {
                       selectedDate = date;
                   });},
                   selectedDateTime: selectedDate,

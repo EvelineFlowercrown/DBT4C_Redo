@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class DiaryCardSlider extends StatefulWidget {
   double initSliderValue;
   String sliderText;
   double fontSize;
   ValueChanged<double> onChanged;
-  DiaryCardSlider({Key? key, required this.sliderText, required this.initSliderValue, required this.onChanged, this.fontSize = 14}) : super(key: key);
+  DiaryCardSlider({super.key, required this.sliderText, required this.initSliderValue, required this.onChanged, this.fontSize = 14});
   @override
   _DiaryCardSliderState createState() => _DiaryCardSliderState();
 }

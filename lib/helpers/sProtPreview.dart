@@ -8,7 +8,7 @@ class SProtPreview extends StatefulWidget {
   final String bestSkill;
   final String bestValue;
   const SProtPreview(
-      {required this.skillOfTheWeek,
+      {super.key, required this.skillOfTheWeek,
       required this.numSkillsUsed,
       required this.mindfulness,
       required this.bestSkill,

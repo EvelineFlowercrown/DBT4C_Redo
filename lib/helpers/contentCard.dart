@@ -4,7 +4,7 @@ class ContentCard extends StatefulWidget {
   final List<Widget> children;
   final doubleX;
   final doubleY;
-  const ContentCard({Key? key, required this.children, required this.doubleX, this.doubleY = 0}) : super(key: key);
+  const ContentCard({super.key, required this.children, required this.doubleX, this.doubleY = 0});
 
   @override
   _ContentCardState createState() => _ContentCardState();
@@ -14,7 +14,7 @@ class _ContentCardState extends State<ContentCard> {
   @override
   Widget build(BuildContext context) {
     if(widget.doubleY > 0){
-      return Container(
+      return SizedBox(
         width: MediaQuery.of(context).size.width/widget.doubleX,
         height: MediaQuery.of(context).size.height/widget.doubleY,
         child: Card(
@@ -28,7 +28,7 @@ class _ContentCardState extends State<ContentCard> {
         ),
       );
     }
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width/widget.doubleX,
       child: Card(
         color: Color.fromRGBO(255, 255, 255, .2),

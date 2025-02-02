@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:collection';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,11 +15,13 @@ abstract class AbstractDatabaseService extends StatefulWidget{
   static String lastTable = "";
 
   //diary card stuff
-  static Map<String,String> diaryCardInstanceData = LinkedHashMap();
-  static Map<String,String> diaryCardEventInstanceData = LinkedHashMap();
+  static Map<String,String> diaryCardInstanceData = {};
+  static Map<String,String> diaryCardEventInstanceData = {};
 
   //skill protocoll stuff
-  static Map<String,String> skillProtocollInstanceData = LinkedHashMap();
+  static Map<String,String> skillProtocollInstanceData = {};
+
+  const AbstractDatabaseService({super.key});
 
 
   @override
@@ -42,9 +43,9 @@ abstract class AbstractDatabaseService extends StatefulWidget{
   static void instanceDataToString(String tableName, Map<String,String> instanceData){
     String output = "CREATE TABLE $tableName(PrimaryKey TEXT PRIMARY KEY";
     for(int i=0; i < instanceData.keys.length; i++){
-      output = output + ", " +  instanceData.keys.elementAt(i) + " TEXT";
+      output = "$output, ${instanceData.keys.elementAt(i)} TEXT";
     }
-    dataBase.dataString = output + ")";
+    dataBase.dataString = "$output)";
     dataBase.tableName = tableName;
   }
 
@@ -53,7 +54,7 @@ abstract class AbstractDatabaseService extends StatefulWidget{
     for(int i=0; i < keys.length; i++){
       instanceData.putIfAbsent(keys[i].toString(), () => "");
       instanceData.update(keys[i], (oldValue) => "");
-      print("reset map entry " + keys[i] + " to empty String");
+      print("reset map entry ${keys[i]} to empty String");
     }
 
     if(lastTable != tableName){
@@ -113,8 +114,9 @@ class DatabaseProvider{
   String tableName = "";
 
   Future<Database> get database async{
-    if(_database != null)
+    if(_database != null) {
       return _database!;
+    }
     _database = await initDB(dataString);
     return _database!;
   }
@@ -142,7 +144,7 @@ class DatabaseProvider{
       var result = await db.query(tableName, where: "PrimaryKey = ?", whereArgs: [primaryKey]);
       print(result.toString());
       if(result.isNotEmpty){
-        Map<String,String> returnMap = LinkedHashMap();
+        Map<String,String> returnMap = {};
         print(returnMap.toString());
         for(int i = 1; i < result[0].keys.length; i++){
           returnMap.putIfAbsent(result[0].keys.elementAt(i), () => result[0].values.elementAt(i).toString());
@@ -151,12 +153,12 @@ class DatabaseProvider{
       }
       else{
         print("database is empty. Returning new Hashmap");
-        return new LinkedHashMap<String,String>();
+        return <String,String>{};
       }
     }
     else{
       db.execute(dataString);
-      return new LinkedHashMap<String,String>();
+      return <String,String>{};
     }
   }
 
@@ -169,7 +171,7 @@ class DatabaseProvider{
       print("queried DB");
       print(result.toString());
       if(result.isNotEmpty){
-        Map<String,String> returnMap = LinkedHashMap();
+        Map<String,String> returnMap = {};
         for(int i = 1; i < result[0].keys.length; i++){
           returnMap.putIfAbsent(result[0].keys.elementAt(i), () => result[0].values.elementAt(i).toString());
         }
@@ -177,18 +179,18 @@ class DatabaseProvider{
       }
       else{
         print("database is empty. Returning new Hashmap");
-      return new LinkedHashMap<String,String>();
+      return <String,String>{};
       }
     }
     else{
       print("Table does not exist");
-      return new LinkedHashMap<String,String>();
+      return <String,String>{};
     }
   }
 
   Future<void> insertEntry(String tableName, String primaryKey, Map<String,String> map) async{
     print("insertentry()");
-    Map<String,String> entryMap = LinkedHashMap();
+    Map<String,String> entryMap = {};
     entryMap.putIfAbsent("PrimaryKey", () => primaryKey);
     entryMap.addAll(map);
     print(entryMap.toString());

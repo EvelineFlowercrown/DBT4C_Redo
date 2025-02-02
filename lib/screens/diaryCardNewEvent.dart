@@ -9,7 +9,7 @@ import 'package:dbt4c_rebuild/helpers/contentCard.dart';
 class DiaryCardNewEvent extends StatelessWidget{
   final String? primaryKey;
 
-  const DiaryCardNewEvent({required this.primaryKey});
+  const DiaryCardNewEvent({super.key, required this.primaryKey});
 
   @override
   Widget build(BuildContext context)
@@ -23,7 +23,7 @@ class DiaryCardNewEvent extends StatelessWidget{
 class DiaryCardNewEventState extends StatefulWidget{
   final String? primaryKey;
 
-  const DiaryCardNewEventState({required this.primaryKey});
+  const DiaryCardNewEventState({super.key, required this.primaryKey});
   @override
   _DiaryCardNewEventState createState() => _DiaryCardNewEventState();
 }
@@ -284,7 +284,7 @@ class _DiaryCardNewEventState extends State<DiaryCardNewEventState>{
                         ),
 
 
-                        Container(
+                        SizedBox(
                             width: MediaQuery.of(context).size.width/1.1,
                             child:Padding(padding: EdgeInsets.all(10),
                               child: Row(

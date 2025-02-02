@@ -22,7 +22,7 @@ abstract class StringUtil{
         freedomString = freedomString + spliString[i];
       }
       else{
-        freedomString = freedomString + spliString[i] + "-";
+        freedomString = "$freedomString${spliString[i]}-";
       }
     }
     return freedomString;

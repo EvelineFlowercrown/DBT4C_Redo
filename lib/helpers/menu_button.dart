@@ -8,7 +8,7 @@ class MainMenuButton extends StatelessWidget{
   final double elevation;
   final double fontSize;
   final Color fontColor;
-  const MainMenuButton({required this.onPressed,
+  const MainMenuButton({super.key, required this.onPressed,
     required this.colorProperty,
     required this.frontImage,
     this.bottomText = "",

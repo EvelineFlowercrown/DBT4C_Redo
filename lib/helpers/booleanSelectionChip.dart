@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BooleanSelectionChip extends StatefulWidget {
@@ -7,7 +6,7 @@ class BooleanSelectionChip extends StatefulWidget {
   final IconData? icon;
   final IconData? iconPressed;
   ValueChanged<bool> onChanged;
-  BooleanSelectionChip ({required this.text, required this.icon, required this.iconPressed, required this.onChanged, this.isPressed});
+  BooleanSelectionChip ({super.key, required this.text, required this.icon, required this.iconPressed, required this.onChanged, this.isPressed});
 
   @override
   _BooleanSelectionChipState createState() => _BooleanSelectionChipState();

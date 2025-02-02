@@ -1,10 +1,7 @@
-import 'dart:collection';
 import 'package:dbt4c_rebuild/helpers/abstactDatabaseService.dart';
 import 'package:dbt4c_rebuild/helpers/diaryCardEventDisplay.dart';
 import 'package:dbt4c_rebuild/screens/diaryCardNewEvent.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:dbt4c_rebuild/helpers/mainContainer.dart';
 import 'package:dbt4c_rebuild/helpers/default_subAppBar.dart';
 import 'package:dbt4c_rebuild/helpers/contentCard.dart';
@@ -13,7 +10,7 @@ import 'package:dbt4c_rebuild/helpers/stringUtil.dart';
 
 class DiarycardTemplate extends StatelessWidget{
   final String? selectedDate;
-  const DiarycardTemplate({required this.selectedDate});
+  const DiarycardTemplate({super.key, required this.selectedDate});
   @override
   Widget build(BuildContext context)
   {
@@ -25,7 +22,7 @@ class DiarycardTemplate extends StatelessWidget{
 
 class DiaryCardTemplateState extends StatefulWidget{
   final String? selectedDate;
-  const DiaryCardTemplateState({this.selectedDate});
+  const DiaryCardTemplateState({super.key, this.selectedDate});
   @override
   _DiaryCardTemplateState createState() => _DiaryCardTemplateState();
 }
@@ -33,7 +30,7 @@ class DiaryCardTemplateState extends StatefulWidget{
 class _DiaryCardTemplateState extends State<DiaryCardTemplateState>{
   int eventCounter = 0;
 
-  Map<String,DiaryCardEventDisplay> eventDisplays = LinkedHashMap();
+  Map<String,DiaryCardEventDisplay> eventDisplays = {};
 
   //direct Database Map access
   Map<String,String> instanceData = AbstractDatabaseService.diaryCardInstanceData;
@@ -173,7 +170,7 @@ class _DiaryCardTemplateState extends State<DiaryCardTemplateState>{
       for(String key in eventDisplays.keys){
         output.add(eventDisplays[key]!);
       }
-      return ContentCard(children: output, doubleX: 1.1);
+      return ContentCard(doubleX: 1.1, children: output);
     }
     else {
       return Padding(padding: EdgeInsets.all(5));
@@ -195,7 +192,7 @@ class _DiaryCardTemplateState extends State<DiaryCardTemplateState>{
   @override
   void initState() {
     super.initState();
-    this.date.text = widget.selectedDate.toString();
+    date.text = widget.selectedDate.toString();
     initMap();
   }
 
@@ -300,7 +297,7 @@ class _DiaryCardTemplateState extends State<DiaryCardTemplateState>{
                         }),
 
 
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width/1.1,
                       child:Padding(padding: EdgeInsets.all(5),
                         child: Row(
@@ -329,16 +326,16 @@ class _DiaryCardTemplateState extends State<DiaryCardTemplateState>{
                                     );
 
                                     //Fügt dem eventData String den PrimaryKey des neuen Events hinzu.
-                                    instanceData.update("eventData", (oldString) => oldString + "$primaryKey,");
+                                    instanceData.update("eventData", (oldString) => "$oldString$primaryKey,");
                                     updateDB();
                                     },
-
-                                child: Text("Ereignis hinzufügen", style: TextStyle(fontSize: 16, color: Color(0xFF333F49))),
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all<Color>(
+                                  backgroundColor: WidgetStateProperty.all<Color>(
                                     Color.fromRGBO(255, 255, 255, .2),
                                   ),
                                 ),
+
+                                child: Text("Ereignis hinzufügen", style: TextStyle(fontSize: 16, color: Color(0xFF333F49))),
                               ),
                             ),
                           ],

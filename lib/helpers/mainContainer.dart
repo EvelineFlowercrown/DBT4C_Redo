@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MainContainer extends StatelessWidget{
   final Widget child;
   final ImageProvider backgroundImage;
-  const MainContainer({required this.child,
+  const MainContainer({super.key, required this.child,
     this.backgroundImage = const AssetImage("lib/resources/WallpaperMainScreen.png"),
 
   });

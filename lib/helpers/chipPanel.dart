@@ -10,7 +10,7 @@ class ChipPanel extends StatefulWidget {
   final List<String> keyList;
   ValueChanged<String>? onChanged;
   late String? dataString;
-  ChipPanel({Key? key, required this.doubleX, required this.text, required this.keyList, String this.dataString = "", this.onChanged}) : super(key: key);
+  ChipPanel({super.key, required this.doubleX, required this.text, required this.keyList, String this.dataString = "", this.onChanged});
   
 
   @override
@@ -23,7 +23,7 @@ class _ChipPanelState extends State<ChipPanel> {
   getChipsAsString(){
     String output = "";
     for(String key in chipStates.keys){
-      output = output + "$key=${chipStates[key]},";
+      output = "$output$key=${chipStates[key]},";
     }
     widget.onChanged!(output);
   }
@@ -31,19 +31,19 @@ class _ChipPanelState extends State<ChipPanel> {
   setChipStatesFromString(String? input){
     //print("turning chip Datastring to Hashmap");
     //print("input string is: $input");
-    String _input = input! + "";
+    String input0 = input!;
     //int debug = 0;
-    while(_input.contains(",")){
+    while(input0.contains(",")){
       //debug++;
       chipStates.update(
-          _input.substring(0, _input.indexOf("=") ), (oldValue) =>
-          _input.substring(_input.indexOf("=") + 1, _input.indexOf(",")));
-      if(_input.indexOf(",") < _input.lastIndexOf(",")){
-        _input = _input.substring(_input.indexOf(",") + 1);
+          input0.substring(0, input0.indexOf("=") ), (oldValue) =>
+          input0.substring(input0.indexOf("=") + 1, input0.indexOf(",")));
+      if(input0.indexOf(",") < input0.lastIndexOf(",")){
+        input0 = input0.substring(input0.indexOf(",") + 1);
         //print("$_input is left after $debug cycles");
       }
       else{
-        _input = "";
+        input0 = "";
         //print("Finished with $_input after $debug cycles");
       }
     }
@@ -52,17 +52,17 @@ class _ChipPanelState extends State<ChipPanel> {
   initChipMap(){
     //print("initializing fresh map");
     chipStates = HashMap();
-    widget.keyList.forEach((key) {
+    for (var key in widget.keyList) {
     chipStates.putIfAbsent(key, () => "false");
     //print(chipStates);
-    });
+    }
   }
 
   List<Widget> generateChildren(){
     initChipMap();
     setChipStatesFromString(widget.dataString);
     List<Widget> output = [];
-    chipStates.keys.forEach((element) {
+    for (var element in chipStates.keys) {
       output.add(
           BooleanSelectionChip(
             text: element,
@@ -76,7 +76,7 @@ class _ChipPanelState extends State<ChipPanel> {
           )
       );
       //print("adding chip: $element = ${chipStates[element] == "true"}");
-    });
+    }
     return output;
   }
   
@@ -84,8 +84,8 @@ class _ChipPanelState extends State<ChipPanel> {
   @override
   Widget build(BuildContext context) {
     return WrapCard(
-        children: generateChildren(),
         doubleX: widget.doubleX,
-        text: widget.text);
+        text: widget.text,
+        children: generateChildren());
   }
 }

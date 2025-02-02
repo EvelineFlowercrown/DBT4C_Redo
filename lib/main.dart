@@ -1,4 +1,3 @@
-import 'package:dbt4c_rebuild/screens/skillFinder.dart';
 import 'package:flutter/material.dart';
 import 'package:dbt4c_rebuild/helpers/menu_button.dart';
 import 'package:flutter/services.dart';

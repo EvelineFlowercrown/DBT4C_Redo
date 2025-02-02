@@ -31,7 +31,7 @@ class DiaryCardMenuState extends StatefulWidget{
 }
 
 class _DiaryCardMenuState extends State<DiaryCardMenuState>{
-  EventList<Event> eventList = new EventList(events: {DateTime.now() : [new Event(date: DateTime.now())]});
+  EventList<Event> eventList = EventList(events: {DateTime.now() : [Event(date: DateTime.now())]});
 
   // Selected Date Variable
   DateTime? selectedDate;
@@ -229,7 +229,7 @@ class _DiaryCardMenuState extends State<DiaryCardMenuState>{
                                 return event.icon;
                               },
                               onDayPressed: (date, events){
-                                this.setState(() {
+                                setState(() {
                                   selectedDate = date;
                                 });},
                               selectedDateTime: selectedDate,
@@ -249,7 +249,7 @@ class _DiaryCardMenuState extends State<DiaryCardMenuState>{
                               fontSize: 14,
                               color: Colors.white,
                             ),
-                            markedDatesMap: EventList<Event>(events: Map<DateTime,List<Event>>() ),
+                            markedDatesMap: EventList<Event>(events: <DateTime,List<Event>>{} ),
                             selectedDayButtonColor: Color.fromRGBO(255,255,255, .2),
                             todayButtonColor: Color.fromRGBO(50,50,50, .45),
                             todayTextStyle: TextStyle(
@@ -264,7 +264,7 @@ class _DiaryCardMenuState extends State<DiaryCardMenuState>{
                               return event.icon;
                             },
                             onDayPressed: (date, events){
-                              this.setState(() {
+                              setState(() {
                                 selectedDate = date;
                               });},
                             selectedDateTime: selectedDate,
@@ -291,15 +291,14 @@ class _DiaryCardMenuState extends State<DiaryCardMenuState>{
                               misery: data.data!["miserySlider"].toString(),
                             );
                           }
-                          return ContentCard(children: [
+                          return ContentCard(doubleX: 1.1, children: [
                             Padding(padding: EdgeInsets.all(44)),
                             Text("Neue Diary Card Erstellen", style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.white
                             ),),
                             Padding(padding: EdgeInsets.all(44)),
-                          ],
-                              doubleX: 1.1);
+                          ]);
                         }
                     ),
                     onTap: (){

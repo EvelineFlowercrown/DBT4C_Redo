@@ -22,7 +22,7 @@ class SkillProtocollTemplate extends StatelessWidget {
 
 class SkillProtocollTemplateState extends StatefulWidget {
   final String? selectedDate;
-  const SkillProtocollTemplateState({required this.selectedDate});
+  const SkillProtocollTemplateState({super.key, required this.selectedDate});
   @override
   _SkillProtocollTemplateState createState() => _SkillProtocollTemplateState();
 }
@@ -137,7 +137,7 @@ class _SkillProtocollTemplateState extends State<SkillProtocollTemplateState> {
   @override
   void initState() {
     super.initState();
-    this.date.text = widget.selectedDate.toString();
+    date.text = widget.selectedDate.toString();
     initMap();
   }
 

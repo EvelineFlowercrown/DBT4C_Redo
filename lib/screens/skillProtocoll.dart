@@ -4,16 +4,16 @@ import 'package:dbt4c_rebuild/helpers/abstactDatabaseService.dart';
 import 'package:dbt4c_rebuild/helpers/contentCard.dart';
 import 'package:dbt4c_rebuild/helpers/sProtPreview.dart';
 import 'package:dbt4c_rebuild/screens/skillProtocollTemplate.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dbt4c_rebuild/helpers/default_subAppBar.dart';
 import 'package:dbt4c_rebuild/helpers/mainContainer.dart';
-import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 
 class SkillProtocollMenu extends StatelessWidget {
+  const SkillProtocollMenu({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +23,8 @@ class SkillProtocollMenu extends StatelessWidget {
 }
 
 class SkillProtocollMenuState extends StatefulWidget {
+  const SkillProtocollMenuState({super.key});
+
   @override
   _SkillProtocollMenuState createState() => _SkillProtocollMenuState();
 }

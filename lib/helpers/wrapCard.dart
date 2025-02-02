@@ -4,7 +4,7 @@ class WrapCard extends StatefulWidget {
   final List<Widget> children;
   final doubleX;
   final String text;
-  const WrapCard({Key? key, required this.children, required this.doubleX, required this.text}) : super(key: key);
+  const WrapCard({super.key, required this.children, required this.doubleX, required this.text});
 
   @override
   _WrapCardState createState() => _WrapCardState();
@@ -13,7 +13,7 @@ class WrapCard extends StatefulWidget {
 class _WrapCardState extends State<WrapCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width/widget.doubleX,
       child: Card(
         color: Color.fromRGBO(255, 255, 255, .2),

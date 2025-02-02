@@ -114,8 +114,9 @@ class DatabaseProvider{
   static Database? _database;
 
   Future<Database> get database async{
-    if(_database != null)
+    if(_database != null) {
       return _database!;
+    }
     _database = await initDB();
     return _database!;
   }
@@ -186,8 +187,9 @@ class DatabaseProvider{
       //print(DiaryCardDatabaseEntry.fromMap(result.first));
       return DiaryCardDatabaseEntry.fromMap(result.first);
     }
-    else
+    else {
       return null;
+    }
   }
   Future<void> insertDCard(DiaryCardDatabaseEntry entry) async{
     final db = await database;

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -8,7 +7,7 @@ class DefaultSubAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color backGroundColor;
   final Color shadowColor;
 
-  const DefaultSubAppBar({
+  const DefaultSubAppBar({super.key, 
     this.appBarLabel = "",
     this.statusBarColor = Colors.transparent,
     this.backGroundColor = Colors.transparent,
