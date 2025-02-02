@@ -8,6 +8,8 @@ import 'package:image_cropper/image_cropper.dart';
 import 'dart:io';
 
 class UserMenu extends StatelessWidget{
+  const UserMenu({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,6 +19,8 @@ class UserMenu extends StatelessWidget{
 }
 
 class MyUserMenu extends StatefulWidget{
+  const MyUserMenu({super.key});
+
   @override
   _MyUserMenuState createState() => _MyUserMenuState();
 }
@@ -45,12 +49,10 @@ class _MyUserMenuState extends State<MyUserMenu>{
     setState(() {
     });
   }
-  void _askCameraPermission() async{
-    if(await Permission.camera.request().isGranted){
-      _permissionStatus = await Permission.camera.status;
-      setState(() {
-      });
-    }
+  void _askPermissions() async {
+    await [Permission.camera, Permission.storage].request();
+    _permissionStatus = await Permission.camera.status;
+    setState(() {});
   }
   Future<void> initPreference() async{
     preferences = await SharedPreferences.getInstance();
@@ -70,9 +72,8 @@ class _MyUserMenuState extends State<MyUserMenu>{
       therapistField.text = preferences!.getString("userTherapist")!;
     }
   }
-  _cropImage(filePath) async {
+  Future<void> _cropImage(String filePath) async {
     final ImageCropper cropper = ImageCropper();
-
     CroppedFile? croppedImage = await cropper.cropImage(
       sourcePath: filePath,
       maxWidth: 1080,
@@ -81,55 +82,58 @@ class _MyUserMenuState extends State<MyUserMenu>{
     );
 
     if (croppedImage != null) {
-      _userImage = File(croppedImage.path); // Convert CroppedFile to File
-      preferences?.setString("userImage", _userImage!.path);
-      setState(() {});
+      setState(() {
+        _userImage = File(croppedImage.path);
+      });
+      preferences?.setString("userImage", croppedImage.path);
+    } else {
+      print("Image cropping failed!");
     }
   }
-  Future getImage({bool fromCamera = false}) async{
-    final XFile?  pickedFile;
-    if(fromCamera){
-      _askCameraPermission();
+  Future getImage({bool fromCamera = false}) async {
+    final XFile? pickedFile;
+    if (fromCamera) {
+      _askPermissions();
       pickedFile = await picker.pickImage(source: ImageSource.camera);
-    }
-    else{
+    } else {
       pickedFile = await picker.pickImage(source: ImageSource.gallery);
     }
-    setState(() {
-      if(pickedFile != null){
-        _cropImage(pickedFile.path);
+
+    if (pickedFile != null) {
+      try {
+        await _cropImage(pickedFile.path);
+      } catch (e) {
+        print("Error processing image: $e");
       }
-      else{
-        print("No image selected!");
-      }
-    });
+    } else {
+      print("No image selected!");
+    }
   }
+
   void _showPicker(context){
     showModalBottomSheet(context: context,
         builder: (buildContext){
           return SafeArea(
-            child: Container(
-              child: Wrap(
-                children: <Widget>[
-                  Center(child: Text("Auswählen von:", style: TextStyle(fontSize: 18))),
-                  ListTile(
-                    leading: Icon(Icons.photo_library),
-                    title: Text("Bibliothek"),
-                    onTap: (){
-                      getImage();
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.photo_camera),
-                    title: Text("Kamera"),
-                    onTap: (){
-                      getImage(fromCamera: true);
-                      Navigator.of(context).pop();
-                    }
-                  )
-                ],
-              ),
+            child: Wrap(
+              children: <Widget>[
+                Center(child: Text("Auswählen von:", style: TextStyle(fontSize: 18))),
+                ListTile(
+                  leading: Icon(Icons.photo_library),
+                  title: Text("Bibliothek"),
+                  onTap: (){
+                    getImage();
+                    Navigator.of(context).pop();
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.photo_camera),
+                  title: Text("Kamera"),
+                  onTap: (){
+                    getImage(fromCamera: true);
+                    Navigator.of(context).pop();
+                  }
+                )
+              ],
             ),
           );
         },
@@ -162,30 +166,30 @@ class _MyUserMenuState extends State<MyUserMenu>{
                   ),
                   child: CircleAvatar(
                     radius: 50,
-                    child: _userImage != null
-                        ? Container(
+                    child: _userImage != null && _userImage!.existsSync()
+                      ? Container(
                         width: 100,
                         height: 100,
                         decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: FileImage(_userImage!)
-                            )
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: FileImage(_userImage!)
+                          )
                         )
-                    )
-                        : Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.grey[200],
-                      ),
-                      width: 100,
-                      height: 100,
-                      child: Icon(
-                        Icons.camera_alt,
-                        color: Colors.grey[800],
-                      ),
+                      )
+                      : Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.grey[200],
                     ),
+                    width: 100,
+                    height: 100,
+                    child: Icon(
+                      Icons.camera_alt,
+                      color: Colors.grey[800],
+                    ),
+                  ),
                   ),
                 ),
                 onTap: (){
