@@ -49,7 +49,7 @@ class DiaryCardDatabaseEntry{
     this.wellDone = "",
     this.moveKind = "",
     this.improvNeeded = "",
-    this. problemAg = "",
+    this.problemAg = "",
     this.diffAct = "",
     this.whichDrugs = "",
   });

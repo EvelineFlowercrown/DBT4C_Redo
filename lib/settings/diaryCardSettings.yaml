@@ -1,0 +1,174 @@
+# specify the elements displayed in the Diary Card
+
+# right below the date, aswell as the daily and weekly goal a diary card consists of ContentCards
+# These ContentCards are a container for sliders and textfields. Here's an example of a ContentCard with a slider and a textfield:
+#
+#  - content_card_items:
+#    - type: "slider"
+#      id: "selfcare"
+#      label: "Selbstfürsorge"
+#
+#    - type: "textfield"
+#      id: "selfvalidation"
+#      label: "Selbstvalidierung"
+
+
+
+
+diary_card:
+  # Fortschritt auf dem Neuen Weg
+  - content_card_items:
+      - type: "slider"
+        id: "newWaySlider"
+        label: "Wie weit ist es mir gelungen, dem Neuen Weg zu folgen?"
+
+      - type: "textfield"
+        id: "newWay"
+        label: "Wo ist es mir gut gelungen?"
+
+  # Körperliche Aktivität
+  - content_card_items:
+      - type: "slider"
+        id: "physicalActivitySlider"
+        label: "Wie viel Bewegung hatte ich?"
+
+      - type: "textfield"
+        id: "physicalActivity"
+        label: "Welche Art von Bewegung?"
+
+  # Strukturen im Alltag
+  - content_card_items:
+      - type: "slider"
+        id: "structureSlider"
+        label: "Wie gut funktionieren meine Strukturen im Alltag?"
+
+      - type: "textfield"
+        id: "structures"
+        label: "Wo ist noch Verbesserungsbedarf?"
+
+  # Selbstreflexion
+  - content_card_items:
+      - type: "slider"
+        id: "selfValidationSlider"
+        label: "Selbstvalidierung"
+
+      - type: "slider"
+        id: "selfCareSlider"
+        label: "Selbstfürsorge"
+
+  # Problemverhalten
+  - content_card_items:
+      - type: "textfield"
+        id: "problems"
+        label: "Welche Problemverhalten sind mir aufgefallen?"
+
+      - type: "textfield"
+        id: "betterBehaviour"
+        label: "Wie hätte ich anders handeln können?"
+
+  # Emotionen und Zustände
+  - content_card_items:
+      - type: "slider"
+        id: "miserySlider"
+        label: "Elend"
+
+      - type: "slider"
+        id: "sudokuSlider"
+        label: "Suizidgedanken"
+
+      - type: "slider"
+        id: "dissociationSlider"
+        label: "Dissoziation"
+
+  # Drogenkonsum
+  - content_card_items:
+      - type: "textfield"
+        id: "drugs"
+        label: "Habe ich heute Drogen konsumiert? Wenn ja, welche?"
+
+  # Anspannung und Stimmung
+  - content_card_items:
+      - type: "slider"
+        id: "tensionSlider1"
+        label: "Anspannung Morgens"
+
+      - type: "slider"
+        id: "tensionSlider2"
+        label: "Anspannung Mittags"
+
+      - type: "slider"
+        id: "tensionSlider3"
+        label: "Anspannung Abends"
+
+      - type: "slider"
+        id: "moodSlider"
+        label: "Durchschnittliche Stimmung"
+
+  # Vertrauen in die Therapie
+  - content_card_items:
+      - type: "slider"
+        id: "trustInTherapySlider"
+        label: "Vertrauen in die Therapie"
+
+
+
+# Specify the elements displayed in the Diary Card summary in the calendar.
+# Summary Items consist of a label and a slidervalue displayed next to it.
+summary_items:
+  # Summary point 1 has a trophy icon so might be used for therapy progress
+  trophy_label: "Neuer Weg"
+  trophy_value: "newWaySlider"
+
+  # Summary point 2 has a happy face icon so might be used for general mood
+  happy_label: "Stimmung"
+  happy_value: "moodSlider"
+
+  # Summary point 3 has a sad face icon so might be used for negative feelings / behaviours
+  sad_label: "Elend"
+  sad_value: "miserySlider"
+
+  # Summary point 4 has a bar graph icon so might be used for stress level or some other statistic
+  stats_label: "Therapievertrauen"
+  stats_value: "trustInTherapySlider"
+
+diarycardevents:
+  # Konfigurierbare Emotionen für das ChipPanel
+  perceived_emotions:
+    label: "Welche Emotionen habe ich in dem Moment wahrgenommen?"
+    emotions:
+      - "Freude"
+      - "Zufriedenheit"
+      - "Scham"
+      - "Begeisterung"
+      - "Zuneigung"
+      - "Schuld"
+      - "Leidenschaft"
+      - "Verwirrung"
+      - "Reue"
+      - "Ekel"
+
+  # ContentCards (Titel und ShortDescription sind fest im Code und nicht in der Config)
+  content_cards:
+    # Ausgangssituation
+    - items:
+        - type: "textfield"
+          id: "situation"
+          label: "Wie war die Ausgangssituation?"
+
+    # Bewertungen & Gedanken
+    - items:
+        - type: "textfield"
+          id: "judgements"
+          label: "Welche Bewertungen sind aufgekommen?"
+        - type: "textfield"
+          id: "impulses"
+          label: "Welche Handlungsimpulse waren spürbar?"
+        - type: "textfield"
+          id: "thoughts"
+          label: "Welche Gedanken konnte ich wahrnehmen?"
+
+    # Handlungen
+    - items:
+        - type: "textfield"
+          id: "actions"
+          label: "Wie habe ich gehandelt?"
