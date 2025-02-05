@@ -5,13 +5,12 @@ import 'package:dbt4c_rebuild/screens/diarycard.dart';
 import 'package:dbt4c_rebuild/screens/settings.dart';
 import 'package:dbt4c_rebuild/screens/user.dart';
 import 'package:dbt4c_rebuild/screens/skillProtocoll.dart';
-//import 'package:dbt4c_rebuild/helpers/notification_service.dart';
-//import 'package:firebase_core/firebase_core.dart';
-//import 'package:firebase_messaging/firebase_messaging.dart';
-//import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:dbt4c_rebuild/dataHandlers/configHandler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  ConfigHandler.initDiaryCardConfig();
+  ConfigHandler.initSkillProtocollConfig();
   runApp(MaterialApp(
     title: "DBT4C",
     home: MainMenu(),

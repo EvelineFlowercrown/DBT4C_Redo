@@ -15,100 +15,118 @@
 
 
 
-diary_card:
+content_cards:
   # Fortschritt auf dem Neuen Weg
-  - content_card_items:
-      - type: "slider"
-        id: "newWaySlider"
-        label: "Wie weit ist es mir gelungen, dem Neuen Weg zu folgen?"
+  - content_card:
+      card_title: ""
+      content_card_items:
+        - type: "slider"
+          id: "newWaySlider"
+          label: "Wie weit ist es mir gelungen, dem Neuen Weg zu folgen?"
 
-      - type: "textfield"
-        id: "newWay"
-        label: "Wo ist es mir gut gelungen?"
+        - type: "textfield"
+          id: "newWay"
+          label: "Wo ist es mir gut gelungen?"
 
   # Körperliche Aktivität
-  - content_card_items:
-      - type: "slider"
-        id: "physicalActivitySlider"
-        label: "Wie viel Bewegung hatte ich?"
+  - content_card:
+      card_title: ""
+      content_card_items:
+        - type: "slider"
+          id: "physicalActivitySlider"
+          label: "Wie viel Bewegung hatte ich?"
 
-      - type: "textfield"
-        id: "physicalActivity"
-        label: "Welche Art von Bewegung?"
+        - type: "textfield"
+          id: "physicalActivity"
+          label: "Welche Art von Bewegung?"
 
   # Strukturen im Alltag
-  - content_card_items:
-      - type: "slider"
-        id: "structureSlider"
-        label: "Wie gut funktionieren meine Strukturen im Alltag?"
+  - content_card:
+      card_title: ""
+      content_card_items:
+        - type: "slider"
+          id: "structureSlider"
+          label: "Wie gut funktionieren meine Strukturen im Alltag?"
 
-      - type: "textfield"
-        id: "structures"
-        label: "Wo ist noch Verbesserungsbedarf?"
+        - type: "textfield"
+          id: "structures"
+          label: "Wo ist noch Verbesserungsbedarf?"
 
   # Selbstreflexion
-  - content_card_items:
-      - type: "slider"
-        id: "selfValidationSlider"
-        label: "Selbstvalidierung"
+  - content_card:
+      card_title: ""
+      content_card_items:
+        - type: "slider"
+          id: "selfValidationSlider"
+          label: "Selbstvalidierung"
 
-      - type: "slider"
-        id: "selfCareSlider"
-        label: "Selbstfürsorge"
+        - type: "slider"
+          id: "selfCareSlider"
+          label: "Selbstfürsorge"
 
   # Problemverhalten
-  - content_card_items:
-      - type: "textfield"
-        id: "problems"
-        label: "Welche Problemverhalten sind mir aufgefallen?"
+  - content_card:
+      card_title: ""
+      content_card_items:
+        - type: "textfield"
+          id: "problems"
+          label: "Welche Problemverhalten sind mir aufgefallen?"
 
-      - type: "textfield"
-        id: "betterBehaviour"
-        label: "Wie hätte ich anders handeln können?"
+        - type: "textfield"
+          id: "betterBehaviour"
+          label: "Wie hätte ich anders handeln können?"
 
   # Emotionen und Zustände
-  - content_card_items:
-      - type: "slider"
-        id: "miserySlider"
-        label: "Elend"
+  - content_card:
+      card_title: ""
+      content_card_items:
+        - type: "slider"
+          id: "miserySlider"
+          label: "Elend"
 
-      - type: "slider"
-        id: "sudokuSlider"
-        label: "Suizidgedanken"
+        - type: "slider"
+          id: "sudokuSlider"
+          label: "Suizidgedanken"
 
-      - type: "slider"
-        id: "dissociationSlider"
-        label: "Dissoziation"
+        - type: "slider"
+          id: "dissociationSlider"
+          label: "Dissoziation"
 
   # Drogenkonsum
-  - content_card_items:
-      - type: "textfield"
-        id: "drugs"
-        label: "Habe ich heute Drogen konsumiert? Wenn ja, welche?"
+  - content_card:
+      card_title: ""
+      content_card_items:
+        - type: "textfield"
+          id: "drugs"
+          label: "Habe ich heute Drogen konsumiert? Wenn ja, welche?"
 
   # Anspannung und Stimmung
-  - content_card_items:
-      - type: "slider"
-        id: "tensionSlider1"
-        label: "Anspannung Morgens"
+  - content_card:
+      card_title: ""
+      content_card_items:
+        - type: "slider"
+          id: "tensionSlider1"
+          label: "Anspannung Morgens"
 
-      - type: "slider"
-        id: "tensionSlider2"
-        label: "Anspannung Mittags"
+        - type: "slider"
+          id: "tensionSlider2"
+          label: "Anspannung Mittags"
 
-      - type: "slider"
-        id: "tensionSlider3"
-        label: "Anspannung Abends"
+        - type: "slider"
+          id: "tensionSlider3"
+          label: "Anspannung Abends"
 
-      - type: "slider"
-        id: "moodSlider"
-        label: "Durchschnittliche Stimmung"
+        - type: "slider"
+          id: "moodSlider"
+          label: "Durchschnittliche Stimmung"
 
   # Vertrauen in die Therapie
-  - content_card_items:
-      - type: "slider"
-        id: "trustInTherapySlider"
-        label: "Vertrauen in die Therapie"
+  - content_card:
+      card_title: ""
+      content_card_items:
+        - type: "slider"
+          id: "trustInTherapySlider"
+          label: "Vertrauen in die Therapie"
 
 
 
