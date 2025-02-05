@@ -32,8 +32,6 @@ abstract class ConfigHandler {
       }
     }
 
-    // Für diarycardevents (Beachte: In deiner YAML-Datei heißt der Schlüssel hier "content_cards")
-    // Achte außerdem auf den korrekten Schlüssel-Namen ("content_cards" statt "conten_cards").
     var events = diaryCardSettings['diarycardevents'];
     if (events != null) {
       // Perceived Emotions:
@@ -41,9 +39,7 @@ abstract class ConfigHandler {
         dCardEmotions.add(emotion);
         print("added emotion $emotion");
       }
-      // Content Cards in diarycardevents:
       for (var eventCard in events['content_cards'] ?? []) {
-        // In diesem Fall ist in der YAML-Struktur der Schlüssel "items" (nicht "content_card_items")
         for (var item in eventCard['items'] ?? []) {
           if (item['type'] == 'slider') {
             dCardEventSliders.add(item['id']);
