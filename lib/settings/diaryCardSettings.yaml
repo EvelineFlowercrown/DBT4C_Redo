@@ -149,6 +149,8 @@ summary_items:
   stats_label: "Therapievertrauen"
   stats_value: "trustInTherapySlider"
 
+
+
 diarycardevents:
   # Konfigurierbare Emotionen für das ChipPanel
   perceived_emotions:

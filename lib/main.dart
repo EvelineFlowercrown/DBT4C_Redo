@@ -1,7 +1,7 @@
+import 'package:dbt4c_rebuild/screens/diarycardCalendar.dart';
 import 'package:flutter/material.dart';
 import 'package:dbt4c_rebuild/helpers/menu_button.dart';
 import 'package:flutter/services.dart';
-import 'package:dbt4c_rebuild/screens/diarycard.dart';
 import 'package:dbt4c_rebuild/screens/settings.dart';
 import 'package:dbt4c_rebuild/screens/user.dart';
 import 'package:dbt4c_rebuild/screens/skillProtocoll.dart';
@@ -81,7 +81,7 @@ class MainMenu extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => DiaryCardMenu()),
+                      MaterialPageRoute(builder: (context) => DiaryCardCalendar()),
                     );
                   },
                   colorProperty: Color.fromRGBO(92, 133, 164, .3),

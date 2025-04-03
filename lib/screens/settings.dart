@@ -1,4 +1,4 @@
-import 'package:dbt4c_rebuild/helpers/abstactDatabaseService.dart';
+import 'package:dbt4c_rebuild/dataHandlers/database.dart';
 import 'package:flutter/material.dart';
 import 'package:dbt4c_rebuild/helpers/mainContainer.dart';
 import 'package:dbt4c_rebuild/helpers/default_subAppBar.dart';
@@ -47,8 +47,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
                       child: ElevatedButton(
                         onPressed: () {
                           // Löscht DiaryCardEvents und DiaryCard
-                          AbstractDatabaseService.clearTable("DiaryCardEvents");
-                          AbstractDatabaseService.clearTable("DiaryCard");
+                          DatabaseProvider.yeetDB();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.redAccent,
@@ -65,7 +64,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
                       child: ElevatedButton(
                         onPressed: () {
                           // Löscht SkillProtocoll
-                          AbstractDatabaseService.clearTable("SkillProtocoll");
+                          DatabaseProvider.yeetDB();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orangeAccent,
