@@ -118,8 +118,11 @@ abstract class DiaryCardGenerator{
               child: OutlinedButton(
 //
                 onPressed: () {
+                  DiaryCardDataHandler.initEventTextFieldData();
+
                   //Der Primary key wird aus datum und index zusammengesetzt.
                   //sollte die gewählte bezeichnung bereits vergeben sein wird der counter erhöht.
+                  //todo: primaryKey hashfunktion machen
                   String primaryKey = date + eventDisplays.length.toString();
 //
                   //Öffnet den Screen DiaryCardNewEvent mit dem eben generierten PrimaryKey als Parameter,

@@ -74,6 +74,8 @@ class _DiaryCardTemplateState extends State<DiaryCardTemplateState>{
   void initState() {
     super.initState();
     date.text = widget.selectedDate.toString();
+    DiaryCardDataHandler.initTextFieldData();
+    DiaryCardDataHandler.initSliderData();
   }
 
   List<Widget> ScrollViewChildren =  [];

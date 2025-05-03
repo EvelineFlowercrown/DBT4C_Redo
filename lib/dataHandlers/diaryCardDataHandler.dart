@@ -231,8 +231,7 @@ abstract class DiaryCardDataHandler{
 
   //--------------------------------------------------------------------------------
   // Fetch calendar data for UI rendering: returns map of date->slider list
-  static Future<Map<String, (List<int>, List<String>)>> fetchCalendarData(
-      String referenceDate) async {
+  static Future<Map<String, (List<int>, List<String>)>> fetchCalendarData(String referenceDate) async {
     print('fetchCalendarData: called with referenceDate=$referenceDate');
 
     // Parse input date (dd.MM.yyyy)
