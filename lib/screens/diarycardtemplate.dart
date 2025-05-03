@@ -1,14 +1,11 @@
 import 'package:dbt4c_rebuild/dataHandlers/diaryCardDataHandler.dart';
 import 'package:dbt4c_rebuild/helpers/diaryCardEventDisplay.dart';
-import 'package:dbt4c_rebuild/screens/diaryCardNewEvent.dart';
 import 'package:flutter/material.dart';
 import 'package:dbt4c_rebuild/helpers/mainContainer.dart';
 import 'package:dbt4c_rebuild/helpers/default_subAppBar.dart';
 import 'package:dbt4c_rebuild/helpers/contentCard.dart';
-import 'package:dbt4c_rebuild/helpers/dCardSlider.dart';
-import 'package:dbt4c_rebuild/helpers/stringUtil.dart';
 import 'package:dbt4c_rebuild/dataHandlers/configHandler.dart';
-import 'package:dbt4c_rebuild/helpers/diaryCardGenerator.dart';
+import 'package:dbt4c_rebuild/generators/diaryCardGenerator.dart';
 
 class DiarycardTemplate extends StatelessWidget{
   final String? selectedDate;
@@ -79,13 +76,7 @@ class _DiaryCardTemplateState extends State<DiaryCardTemplateState>{
     date.text = widget.selectedDate.toString();
   }
 
-  List<Widget> ScrollViewChildren =  [
-
-
-
-
-
-  ];
+  List<Widget> ScrollViewChildren =  [];
 
   @override
   Widget build(BuildContext context) {
@@ -96,27 +87,15 @@ class _DiaryCardTemplateState extends State<DiaryCardTemplateState>{
         backGroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
       ),
-      //floatingActionButton: FloatingActionButton(
-      //  onPressed: (){print("hi");
-      //  },
-      //  child: Icon(Icons.share),
-      //),
       body: MainContainer(
         backgroundImage: AssetImage("lib/resources/WallpaperDCard.png"),
-        child: FutureBuilder<bool>(
-          future: DiaryCardDataHandler.loadDiaryEntry(date.text),
-          builder: (context, AsyncSnapshot<bool> dataAvailable){
-            if(dataAvailable.data == true){
-
-              //region Load TextFields from DB Map
-              for (String key in textEditingControllers.keys) {
-                textEditingControllers[key]?.text = textFieldData[key]!;
-              }
-              //endregion Load TextFields from DB Map
-
+        child: FutureBuilder<List<Widget>>(
+          future: DiaryCardGenerator.buildDiaryCardLayout(date.text, context),
+          builder: (context, AsyncSnapshot<List<Widget>> snapshot){
+            if(snapshot.data != null){
               return SingleChildScrollView(
                 child: Column(
-                  children: DiaryCardGenerator.buildDiaryCardLayout(date.text, context),
+                  children: snapshot.data!,
                 ),
               );
             }

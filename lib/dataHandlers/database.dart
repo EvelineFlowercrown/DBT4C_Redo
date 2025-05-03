@@ -100,7 +100,7 @@ class DatabaseProvider {
 
   static Future<void> directDelete(Future<Database> database, tableName, String primaryKey) async{
     final db = await database;
-    await db.delete(tableName, where: "PrimaryKey = ?", whereArgs: [primaryKey]);
+    await db.delete(tableName, where: "id = ?", whereArgs: [primaryKey]);
   }
 
   static Future<void> _updateTable({

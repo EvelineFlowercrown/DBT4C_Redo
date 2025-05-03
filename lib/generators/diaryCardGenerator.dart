@@ -5,6 +5,7 @@ import 'package:dbt4c_rebuild/helpers/contentCard.dart';
 import 'package:dbt4c_rebuild/helpers/dCardSlider.dart';
 import 'package:dbt4c_rebuild/dataHandlers/configHandler.dart';
 
+import '../helpers/diaryCardEventList.dart';
 import '../screens/diaryCardNewEvent.dart';
 
 abstract class DiaryCardGenerator{
@@ -22,7 +23,9 @@ abstract class DiaryCardGenerator{
   }
 
 
-  static List<Widget> contentcardGenerator(String date){
+  static Future<List<Widget>> contentcardGenerator(String date) async {
+    await DiaryCardDataHandler.loadDiaryEntry(date);
+    getTextEditingControllers();
     List<Widget> output = [];
     for(var contentCard in ConfigHandler.dCardContentCards){
       List<Widget> children = [];
@@ -38,6 +41,7 @@ abstract class DiaryCardGenerator{
             },
           ));
         } else if (item['type'] == 'textfield') {
+          textEditingControllers[item["id"]]?.text = DiaryCardDataHandler.textFieldData[item["id"]]!;
           children.add(Text(item["label"],
               style: TextStyle(
                   fontSize: 16,
@@ -57,48 +61,9 @@ abstract class DiaryCardGenerator{
     return output;
   }
 
-  static Future<bool> generateEventSummary(String date, context) async {
-    List<Map<String, Object?>> events = await DiaryCardDataHandler.loadAllEvents(date);
-    for(Map<String, Object?> event in events){
-      String key = event["id"].toString();
-      eventDisplays.putIfAbsent(key, () =>DiaryCardEventDisplay(
-        eventName: event["title"].toString(),
-        shortDescription: event["shortDescription"].toString(),
-        trashCallback: () => deleteDisplay(key, context),
-        editCallback: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => DiaryCardNewEvent(
-            primaryKey: key
-        )));
-        },
-      ));
-    }
-    return true;
-  }
-  static void deleteDisplay(String eventKey, context) {
-    if (eventDisplays.isNotEmpty) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context){
-            return AlertDialog(
-              title: Text("Bist du Sicher?"),
-              content: Text("Möchtest du dieses Event löschen?"),
-              actions:<Widget> [
-                TextButton(child: Text("Abbrechen"),
-                  onPressed: (){Navigator.of(context).pop();},
-                ),
-                TextButton(child: Text("Bestätigen"),
-                  onPressed: (){
-                    eventDisplays.remove(eventKey);
-                    DiaryCardDataHandler.directDelete("DiaryCardEvents", eventKey);
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          }
-      );
-    }
-  }
-  static List<Widget> buildDiaryCardLayout(String date, context){
+  static Future<List<Widget>> buildDiaryCardLayout(String date, context) async {
+    textEditingControllers["dailyGoal"]?.text = DiaryCardDataHandler.textFieldData["dailyGoal"]!;
+    textEditingControllers["weeklyGoal"]?.text = DiaryCardDataHandler.textFieldData["weeklyGoal"]!;
     List<Widget> children = [Padding(padding: EdgeInsets.all(10))];
     children.add(ContentCard(
       doubleX: 1.1,
@@ -138,23 +103,7 @@ abstract class DiaryCardGenerator{
         ),
       ],
     ));
-    children.add(FutureBuilder(
-        future: DiaryCardGenerator.generateEventSummary(date, context),
-        builder: (context, AsyncSnapshot<bool> dataAvailable) {
-          if (dataAvailable.data == true) {
-            if (eventDisplays.isNotEmpty) {
-              List<Widget> output = [];
-              for (String key in eventDisplays.keys) {
-                output.add(eventDisplays[key]!);
-              }
-              return ContentCard(doubleX: 1.1, children: output);
-            }
-            else {
-              return Padding(padding: EdgeInsets.all(5));
-            }
-          }
-          return Padding(padding: EdgeInsets.all(5));
-        }),);
+    children.add(DiaryCardEventList(date: date));
     children.add(SizedBox(
       width: MediaQuery
           .of(context)
@@ -178,13 +127,14 @@ abstract class DiaryCardGenerator{
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) =>
                       DiaryCardNewEvent(
-                          primaryKey: primaryKey
+                        primaryKey: primaryKey,
+                        date: date,
                       )
                   )
                   );
 //
                   //Fügt dem eventData String den PrimaryKey des neuen Events hinzu.
-                  DiaryCardDataHandler.saveDiaryCardEvent(date, primaryKey, {});
+                  DiaryCardDataHandler.saveDiaryCardEvent(date, primaryKey);
                 },
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all<Color>(
@@ -200,7 +150,7 @@ abstract class DiaryCardGenerator{
         ),
       ),
     ));
-    for(var child in contentcardGenerator(date)){
+    for(var child in await contentcardGenerator(date)){
       children.add(child);
     }
     return children;

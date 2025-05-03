@@ -169,6 +169,20 @@ diarycardevents:
 
   # ContentCards (Titel und ShortDescription sind fest im Code und nicht in der Config)
   content_cards:
+    # Name und Description
+    - items:
+        - type: "textfield"
+          id: "title"
+          label: "Gib dem Ereignis einen Namen"
+          maxchars: "45"
+          minLines: "3"
+          maxLines: "6"
+        - type: "textfield"
+          id: "shortDescription"
+          label: "Beschreibe das Ereignis in ein bis 2 sätzen"
+          maxchars: "45"
+          minLines: "3"
+          maxLines: "6"
     # Ausgangssituation
     - items:
         - type: "textfield"

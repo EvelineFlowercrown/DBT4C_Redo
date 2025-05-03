@@ -24,23 +24,6 @@ class _DiaryCardEventDisplayState extends State<DiaryCardEventDisplay> {
           ),
       ),
     );
-    /*return ContentCard(
-      doubleX: 1.1,
-      children: [
-
-        /*Text(widget.eventName, style: TextStyle(
-            fontSize: 18,
-            color: Color(0xFF333F49)),
-          textAlign: TextAlign.center,
-        ),
-        Padding(padding: EdgeInsets.all(10)),
-        Text(widget.shortDescription, style: TextStyle(
-            fontSize: 16,
-            color: Color(0xFF333F49)),
-          textAlign: TextAlign.center,
-        ),*/
-        ]
-    );*/
   }
 }
 
