@@ -1,5 +1,4 @@
 import 'package:dbt4c_rebuild/helpers/abstactDatabaseService.dart';
-import 'package:dbt4c_rebuild/helpers/chipPanel.dart';
 import 'package:dbt4c_rebuild/helpers/contentCard.dart';
 import 'package:dbt4c_rebuild/helpers/dCardSlider.dart';
 import 'package:flutter/material.dart';
@@ -210,32 +209,32 @@ class _SkillProtocollTemplateState extends State<SkillProtocollTemplateState> {
                             Padding(padding: EdgeInsets.all(10)),
 
 
-                            ChipPanel(
-                              doubleX: 1.1,
-                              text: "Achtsamkeit: Was?",
-                              keyList: [
-                                "observing",
-                                "Beschreiben Innen",
-                                "Beschreiben Außen",
-                                "Teilnehmen",
-                                "Atemübung"
-                              ],
-                              dataString: "",
-                              onChanged: (dataString) {},
-                            ),
-
-
-                            ChipPanel(
-                              doubleX: 1.1,
-                              text: "Achtsamkeit: Wie?",
-                              keyList: [
-                                "Annehmend",
-                                "Konzentriert",
-                                "Wirkungsvoll"
-                              ],
-                              dataString: "",
-                              onChanged: (dataString) {},
-                            ),
+                            //ChipPanel(
+                            //  doubleX: 1.1,
+                            //  text: "Achtsamkeit: Was?",
+                            //  keyList: [
+                            //    "observing",
+                            //    "Beschreiben Innen",
+                            //    "Beschreiben Außen",
+                            //    "Teilnehmen",
+                            //    "Atemübung"
+                            //  ],
+                            //  dataString: "",
+                            //  onChanged: (dataString) {},
+                            //),
+//
+//
+                            //ChipPanel(
+                            //  doubleX: 1.1,
+                            //  text: "Achtsamkeit: Wie?",
+                            //  keyList: [
+                            //    "Annehmend",
+                            //    "Konzentriert",
+                            //    "Wirkungsvoll"
+                            //  ],
+                            //  dataString: "",
+                            //  onChanged: (dataString) {},
+                            //),
 
 
                             Padding(padding: EdgeInsets.all(10)),

@@ -47,6 +47,7 @@ class DatabaseProvider {
     required String tableName,
     List<String> stringColums = const [],
     List<String> integerColums = const [],
+    List<String> booleanColums = const [],
   }) async {
     final tableExists = await _checkTableExists(db, tableName);
 
@@ -56,6 +57,7 @@ class DatabaseProvider {
         tableName: tableName,
         stringColums: stringColums,
         integerColums: integerColums,
+        booleanColums: booleanColums,
       );
     } else {
       await _updateTable(
@@ -63,6 +65,7 @@ class DatabaseProvider {
         tableName: tableName,
         stringColums: stringColums,
         integerColums: integerColums,
+        booleanColums: booleanColums,
       );
     }
   }
@@ -71,6 +74,7 @@ class DatabaseProvider {
     required String tableName,
     List<String> stringColums = const [],
     List<String> integerColums = const [],
+    List<String> booleanColums = const [],
   }) async {
     final columns = [];
 
@@ -87,6 +91,9 @@ class DatabaseProvider {
     }
     for (final slider in integerColums) {
       columns.add('$slider INTEGER');
+    }
+    for (final chip in booleanColums) {
+      columns.add('$chip BOOLEAN');
     }
 
     final createSql = 'CREATE TABLE $tableName (${columns.join(', ')})';
@@ -108,6 +115,7 @@ class DatabaseProvider {
     required String tableName,
     required List<String> stringColums,
     required List<String> integerColums,
+    required List<String> booleanColums,
   }) async {
     final existingColumns = await _getTableColumns(db, tableName);
 
@@ -119,6 +127,11 @@ class DatabaseProvider {
     for (final slider in integerColums) {
       if (!existingColumns.contains(slider)) {
         await db.execute('ALTER TABLE $tableName ADD COLUMN $slider INTEGER');
+      }
+    }
+    for (final chip in booleanColums) {
+      if (!existingColumns.contains(chip)) {
+        await db.execute('ALTER TABLE $tableName ADD COLUMN $chip BOOLEAN');
       }
     }
   }

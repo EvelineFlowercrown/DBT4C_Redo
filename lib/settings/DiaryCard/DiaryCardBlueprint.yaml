@@ -1,0 +1,107 @@
+Layout:
+  - # Header Card
+    type: "HeaderCard"
+    content:
+      - type: "prefilleddatefield"
+
+      - type: "icontextfield"
+        id: "dailyGoal"
+        prefill: "Tagesziel"
+        icon: ""
+
+      - type: "icontextfield"
+        id: "weeklygoal"
+        prefill: "Wochenziel"
+        icon: "Icons.assignment_turned_in_rounded"
+  - # Fortschritt auf dem Neuen Weg
+    type: "Contentcard"
+    content:
+      - type: "slider"
+        id: "newWaySlider"
+        label: "Wie weit ist es mir gelungen, dem Neuen Weg zu folgen?"
+      - type: "textfield"
+        id: "newWay"
+        label: "Wo ist es mir gut gelungen?"
+
+  - # Körperliche Aktivität
+    type: "Contentcard"
+    content:
+      - type: "slider"
+        id: "physicalActivitySlider"
+        label: "Wie viel Bewegung hatte ich?"
+      - type: "textfield"
+        id: "physicalActivity"
+        label: "Welche Art von Bewegung?"
+
+  - # Strukturen im Alltag
+    type: "Contentcard"
+    content:
+      - type: "slider"
+        id: "structureSlider"
+        label: "Wie gut funktionieren meine Strukturen im Alltag?"
+      - type: "textfield"
+        id: "structures"
+        label: "Wo ist noch Verbesserungsbedarf?"
+
+  - # Selbstreflexion
+    type: "Contentcard"
+    content:
+      - type: "slider"
+        id: "selfValidationSlider"
+        label: "Selbstvalidierung"
+      - type: "slider"
+        id: "selfCareSlider"
+        label: "Selbstfürsorge"
+
+  - # Problemverhalten
+    type: "Contentcard"
+    content:
+      - type: "textfield"
+        id: "problems"
+        label: "Welche Problemverhalten sind mir aufgefallen?"
+      - type: "textfield"
+        id: "betterBehaviour"
+        label: "Wie hätte ich anders handeln können?"
+
+  - # Emotionen und Zustände
+    type: "Contentcard"
+    content:
+      - type: "slider"
+        id: "miserySlider"
+        label: "Elend"
+      - type: "slider"
+        id: "sudokuSlider"
+        label: "Suizidgedanken"
+      - type: "slider"
+        id: "dissociationSlider"
+        label: "Dissoziation"
+
+  - # Drogenkonsum
+    type: "Contentcard"
+    content:
+      - type: "textfield"
+        id: "drugs"
+        label: "Habe ich heute Drogen konsumiert? Wenn ja, welche?"
+
+  - # Anspannung und Stimmung
+    type: "Contentcard"
+    content:
+      - type: "slider"
+        id: "tensionSlider1"
+        label: "Anspannung Morgens"
+      - type: "slider"
+        id: "tensionSlider2"
+        label: "Anspannung Mittags"
+      - type: "slider"
+        id: "tensionSlider3"
+        label: "Anspannung Abends"
+      - type: "slider"
+        id: "moodSlider"
+        label: "Durchschnittliche Stimmung"
+
+  - # Vertrauen in die Therapie
+    type: "Contentcard"
+    content:
+      - type: "slider"
+        id: "trustInTherapySlider"
+        label: "Vertrauen in die Therapie"

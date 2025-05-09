@@ -52,7 +52,7 @@ class _DiaryCardNewEventState extends State<DiaryCardNewEventState>{
               backgroundImage: AssetImage("lib/resources/WallpaperDCard.png"),
               child: SingleChildScrollView(
                 child: FutureBuilder(
-                    future: Diarycardneweventgenerator.contentcardGenerator(widget.date, widget.primaryKey),
+                    future: Diarycardneweventgenerator.buildDiaryCardNewEventLayout(widget.date, widget.primaryKey, context),
                     builder: (context, AsyncSnapshot<List<Widget>> snapshot){
                       if(snapshot.data != null){
                         return SingleChildScrollView(

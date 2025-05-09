@@ -57,8 +57,8 @@ abstract class DiaryCardDataHandler{
   // Initialize event chips (boolean flags) to false
   static initEventChipData(){
     print('DiaryCardDataHandler.initEventChipData: called');
-    for(int i=0; i < ConfigHandler.dCardEventSliders.length; i++){
-      final chip = ConfigHandler.dCardEventSliders[i].toString();
+    for(int i=0; i < ConfigHandler.dCardEmotions.length; i++){
+      final chip = ConfigHandler.dCardEmotions[i].toString();
       print('DiaryCardDataHandler.initEventChipData: initializing event chip $chip to false');
       eventChipData.putIfAbsent(chip, () => false);
       eventChipData.update(chip, (oldValue) => false);
@@ -87,7 +87,8 @@ abstract class DiaryCardDataHandler{
         db: db,
         tableName: 'DiaryCardEvents',
         stringColums: ConfigHandler.dCardEventTextFields,
-        integerColums: ConfigHandler.dCardEventSliders
+        integerColums: ConfigHandler.dCardEventSliders,
+        booleanColums: ConfigHandler.dCardEmotions
     );
     print('DiaryCardDataHandler.setupDiaryCardDBTables: DiaryCardEvents table ready');
     print('DiaryCardDataHandler.setupDiaryCardDBTables: operation successful');
@@ -176,6 +177,17 @@ abstract class DiaryCardDataHandler{
         eventSliderData[slider] = row[slider] as int? ?? 0;
         print('DiaryCardDataHandler.loadDiaryEventEntry: loaded slider $slider = ${eventSliderData[slider]}');
       });
+      print(ConfigHandler.dCardEmotions);
+      ConfigHandler.dCardEmotions.forEach((chip) {
+        try {
+          final value = row[chip];
+          eventChipData[chip] = value == 1;
+          print('DiaryCardDataHandler.loadDiaryEventEntry: loaded chip $chip = ${eventChipData[chip]}');
+        } catch (e, stack) {
+          print('Fehler beim Laden von chip "$chip": ${row[chip]} (${row[chip]?.runtimeType})');
+          print('Exception: $e');
+        }
+      });
     } else {
       print('DiaryCardDataHandler.loadDiaryEventEntry: no entry found for date $key');
     }
@@ -212,6 +224,10 @@ abstract class DiaryCardDataHandler{
         data[slider] = eventSliderData[slider] ?? 0;
         print('DiaryCardDataHandler.saveDiaryCardEvent: adding event slider $slider = ${eventSliderData[slider]}');
       });
+      ConfigHandler.dCardEmotions.forEach((chip) {
+        data[chip] = eventChipData[chip]! ? 1 : 0;
+        print('DiaryCardDataHandler.saveDiaryCardEvent: adding event chip $chip = ${eventChipData[chip]}');
+      });
 
       await db.insert(
         'DiaryCardEvents',
@@ -226,6 +242,12 @@ abstract class DiaryCardDataHandler{
   }
 
   //endregion Events
+
+  //region chips
+
+
+
+  //endregion chips
 
   // Delete an entry or event directly by primary key
   static Future<bool> directDelete(String tableName, String primaryKey) async{

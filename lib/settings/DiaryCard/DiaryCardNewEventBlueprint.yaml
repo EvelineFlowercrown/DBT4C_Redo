@@ -1,0 +1,53 @@
+Layout:
+  - #Leading Content Card
+    type: "Contentcard"
+    content:
+      - type: "textfield"
+        id: "title"
+        label: "Gib dem Ereignis einen Namen"
+        maxchars: "45"
+        minLines: "3"
+        maxLines: "6"
+      - type: "textfield"
+        id: "shortDescription"
+        label: "Beschreibe das Ereignis in ein bis 2 sätzen"
+        maxchars: "45"
+        minLines: "3"
+        maxLines: "6"
+  - #perceived_emotions Chip Panel
+    type: "ChipPanel"
+    content:
+      - "Freude"
+      - "Zufriedenheit"
+      - "Scham"
+      - "Begeisterung"
+      - "Zuneigung"
+      - "Schuld"
+      - "Leidenschaft"
+      - "Verwirrung"
+      - "Reue"
+      - "Ekel"
+  - #Situation
+    type: "Contentcard"
+    content:
+      - type: "textfield"
+        id: "situation"
+        label: "Wie war die Ausgangssituation?"
+  -
+    type: "Contentcard"
+    content:
+      - type: "textfield"
+        id: "judgements"
+        label: "Welche Bewertungen sind aufgekommen?"
+      - type: "textfield"
+        id: "impulses"
+        label: "Welche Handlungsimpulse waren spürbar?"
+      - type: "textfield"
+        id: "thoughts"
+        label: "Welche Gedanken konnte ich wahrnehmen?"
+  -
+    type: "Contentcard"
+    content:
+      - type: "textfield"
+        id: "actions"
+        label: "Wie habe ich gehandelt?"

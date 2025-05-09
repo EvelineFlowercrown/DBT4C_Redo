@@ -5,7 +5,7 @@ import 'package:dbt4c_rebuild/dataHandlers/diaryCardDataHandler.dart';
 abstract class ConfigHandler {
   static List<String> dCardTextFields = ["dailyGoal","weeklyGoal"];
   static List<String> dCardSliders = [];
-  static List<String> dCardEventTextFields = [];
+  static List<String> dCardEventTextFields = ["title","shortDescription"];
   static List<String> dCardEventSliders = [];
   static List<String> dCardEmotions = [];
   static List<String> dCardSummary = [];
@@ -13,6 +13,7 @@ abstract class ConfigHandler {
   static List<String> sProtSliders = [];
   static List dCardContentCards = [];
   static List dCardEventContentCards = [];
+  static dynamic dCardEventLeadingContentCard = [];
 
   static Future<void> initDiaryCardConfig() async {
     final yamlString = await rootBundle.loadString(
@@ -37,6 +38,8 @@ abstract class ConfigHandler {
 
     var events = diaryCardSettings['diarycardevents'];
     if (events != null) {
+      dCardEventLeadingContentCard = events['LeadingCard'];
+
       // Perceived Emotions:
       for (var emotion in events['perceived_emotions']['emotions'] ?? []) {
         dCardEmotions.add(emotion);

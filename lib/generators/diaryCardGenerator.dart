@@ -23,6 +23,7 @@ abstract class DiaryCardGenerator{
   }
 
 
+
   static Future<List<Widget>> contentcardGenerator(String date) async {
     await DiaryCardDataHandler.loadDiaryEntry(date);
     getTextEditingControllers();
