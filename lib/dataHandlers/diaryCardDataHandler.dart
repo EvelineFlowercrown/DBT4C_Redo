@@ -198,27 +198,33 @@ abstract class DiaryCardDataHandler{
 
   // Save a single diary card event
   static Future<void> saveDiaryCardEvent(String? date, String? id) async {
-    print('DiaryCardDataHandler.saveDiaryCardEvent: called with parameters date=$date, id=$id');
-    final db = await DatabaseProvider().database;
-    final data = <String, dynamic>{'date': date!, 'id': id!};
+    if (eventTextFieldData["title"] != "") {
+      print('DiaryCardDataHandler.saveDiaryCardEvent: called with parameters date=$date, id=$id');
+      final db = await DatabaseProvider().database;
+      final data = <String, dynamic>{'date': date!, 'id': id!};
 
-    // Potential bug: using wrong map for event data; ensure correct map is referenced
-    ConfigHandler.dCardEventTextFields.forEach((field) {
-      data[field] = eventTextFieldData[field] ?? '';
-      print('DiaryCardDataHandler.saveDiaryCardEvent: adding event text field $field = ${eventTextFieldData[field]}');
-    });
-    ConfigHandler.dCardEventSliders.forEach((slider) {
-      data[slider] = eventSliderData[slider] ?? 0;
-      print('DiaryCardDataHandler.saveDiaryCardEvent: adding event slider $slider = ${eventSliderData[slider]}');
-    });
+      // Potential bug: using wrong map for event data; ensure correct map is referenced
+      ConfigHandler.dCardEventTextFields.forEach((field) {
+        data[field] = eventTextFieldData[field] ?? '';
+        print('DiaryCardDataHandler.saveDiaryCardEvent: adding event text field $field = ${eventTextFieldData[field]}');
+      });
+      ConfigHandler.dCardEventSliders.forEach((slider) {
+        data[slider] = eventSliderData[slider] ?? 0;
+        print('DiaryCardDataHandler.saveDiaryCardEvent: adding event slider $slider = ${eventSliderData[slider]}');
+      });
 
-    await db.insert(
-      'DiaryCardEvents',
-      data,
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-    print('DiaryCardDataHandler.saveDiaryCardEvent: operation successful');
+      await db.insert(
+        'DiaryCardEvents',
+        data,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      print('DiaryCardDataHandler.saveDiaryCardEvent: operation successful');
+    }
+    else {
+      print("no title");
+    }
   }
+
   //endregion Events
 
   // Delete an entry or event directly by primary key

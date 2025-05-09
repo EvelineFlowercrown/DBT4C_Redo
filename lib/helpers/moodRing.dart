@@ -11,7 +11,7 @@ class _MoodringState extends State<Moodring> {
   @override
   Widget build(BuildContext context) {
     Color ringColor = Color.fromRGBO(255, 255, 255, 1.0);
-    if(widget.mood >= 0){
+    if(widget.mood >= 1){
       int mood = widget.mood.clamp(0, 100);
       ringColor = Color.fromRGBO((255 * (1 - (mood / 100))).round(), (255 * (mood / 100)).round(), 0, 1,);
     }

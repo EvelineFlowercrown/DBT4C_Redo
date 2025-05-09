@@ -62,8 +62,6 @@ abstract class DiaryCardGenerator{
   }
 
   static Future<List<Widget>> buildDiaryCardLayout(String date, context) async {
-    textEditingControllers["dailyGoal"]?.text = DiaryCardDataHandler.textFieldData["dailyGoal"]!;
-    textEditingControllers["weeklyGoal"]?.text = DiaryCardDataHandler.textFieldData["weeklyGoal"]!;
     List<Widget> children = [Padding(padding: EdgeInsets.all(10))];
     children.add(ContentCard(
       doubleX: 1.1,
@@ -120,10 +118,7 @@ abstract class DiaryCardGenerator{
                 onPressed: () {
                   DiaryCardDataHandler.initEventTextFieldData();
 
-                  //Der Primary key wird aus datum und index zusammengesetzt.
-                  //sollte die gewählte bezeichnung bereits vergeben sein wird der counter erhöht.
-                  //todo: primaryKey hashfunktion machen
-                  String primaryKey = date + eventDisplays.length.toString();
+                  String primaryKey =  DateTime.now().millisecondsSinceEpoch.toString();
 //
                   //Öffnet den Screen DiaryCardNewEvent mit dem eben generierten PrimaryKey als Parameter,
                   //wodurch das neue event diesen bekannten key auch zum speichern in die Diary Card benutzt.
@@ -156,6 +151,8 @@ abstract class DiaryCardGenerator{
     for(var child in await contentcardGenerator(date)){
       children.add(child);
     }
+    textEditingControllers["dailyGoal"]?.text = DiaryCardDataHandler.textFieldData["dailyGoal"]!;
+    textEditingControllers["weeklyGoal"]?.text = DiaryCardDataHandler.textFieldData["weeklyGoal"]!;
     return children;
   }
 }
