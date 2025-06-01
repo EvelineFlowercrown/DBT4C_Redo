@@ -1,5 +1,5 @@
 import 'package:dbt4c_rebuild/dataHandlers/database.dart';
-bool debugMode = false;
+bool debugMode = true;
 
 void debugChangedValue(String callingmethod, String variable, String value1){
   if(debugMode){

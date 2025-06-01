@@ -100,6 +100,9 @@ class DatabaseProvider {
       case "DiaryCardEntries":
         columns.add('date TEXT PRIMARY KEY');
         break;
+      case "SkillProtocollEntries":
+        columns.add('date TEXT PRIMARY KEY');
+        break;
     }
 
 

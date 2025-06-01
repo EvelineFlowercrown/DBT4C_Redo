@@ -1,4 +1,5 @@
 //import 'package:dbt4c_rebuild/dataHandlers/skillProtocollDataHandler.dart';
+import 'package:dbt4c_rebuild/dataHandlers/skillProtocollDataHandler.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:yaml/yaml.dart';
 import 'package:dbt4c_rebuild/dataHandlers/diaryCardDataHandler.dart';
@@ -20,8 +21,9 @@ abstract class ConfigHandler {
   static List<String> sProtSliders = [];
 
   static late DiaryCardDataHandler diaryCardDataHandler;
-  //static SkillProtocollDataHandler skillProtocollDataHandler = SkillProtocollDataHandler();
+  static late SkillProtocollDataHandler skillProtocollDataHandler;
   static late DiaryCardEventDataHandler diaryCardEventDataHandler;
+
 
   static initDiaryCardConfig() async {
     final yamlString = await rootBundle.loadString(
@@ -43,7 +45,15 @@ abstract class ConfigHandler {
     debugFinished("ConfigHandler.initDiaryCardEventConfig");
   }
 
-
+  static initSkillProtocollConfig() async {
+    final yamlString = await rootBundle.loadString(
+        'lib/settings/SkillProtocoll/SkillProtocollBlueprint.yaml');
+    skillProtocollDataHandler = SkillProtocollDataHandler(
+        extractTextfields(yamlString),
+        extractSliders(yamlString),
+        extractUniqueChips(yamlString));
+    debugFinished("ConfigHandler.initSkillProtocollConfig");
+  }
 
   static List<String> extractTextfields(String yamlString) {
     debugPrint("ConfigHandler.extractTextfields", "Extracting textfields...");

@@ -216,7 +216,7 @@ class SkillProtocollDataHandler implements DataHandler{
       bool mindfulness = chipColumns.any((chip) => (row[chip] as int? ?? 0) == 1);
 
       print('fetchSkillProtocolCalendarData: $date -> skillOfTheWeek=$skillOfTheWeek, bestSkill=$bestSkill, used=$usedCount, mindfulness=$mindfulness');
-      result[date] = ([usedCount],[skillOfTheWeek, bestSkill, mindfulness.toString()]);
+      result[date] = ([highestValue,usedCount],[skillOfTheWeek, bestSkill, mindfulness.toString()]);
     }
 
     print('fetchSkillProtocolCalendarData: operation successful');

@@ -14,8 +14,8 @@ Layout:
     content:
       - "Atemuebungen"
       - "Teilnehmen"
-      - "Beschreiben Innen"
-      - "Beschreiben Aussen"
+      - "Beschreiben_Innen"
+      - "Beschreiben_Aussen"
       - "Wahrnehmen"
 
   - # Achtsamkeit:wie? Chip Panel

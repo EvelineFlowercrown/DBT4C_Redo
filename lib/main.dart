@@ -11,6 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   ConfigHandler.initDiaryCardConfig();
   ConfigHandler.initDiaryCardEventConfig();
+  ConfigHandler.initSkillProtocollConfig();
   runApp(MaterialApp(
     title: "DBT4C",
     home: MainMenu(),

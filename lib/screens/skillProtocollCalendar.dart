@@ -7,10 +7,9 @@ import 'package:dbt4c_rebuild/widgets/default_subAppBar.dart';
 import 'package:dbt4c_rebuild/widgets/mainContainer.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:dbt4c_rebuild/dataHandlers/configHandler.dart';
-import 'package:dbt4c_rebuild/helpers/abstactDatabaseService.dart';
-import 'package:dbt4c_rebuild/helpers/stringUtil.dart';
+import '../helpers/calendarEntry.dart';
+import '../widgets/moodRing.dart';
 
 
 class SkillProtocollCalendar extends StatelessWidget {
@@ -32,170 +31,75 @@ class SkillProtocollCalendarState extends StatefulWidget {
 }
 
 class _SkillProtocollCalendarState extends State<SkillProtocollCalendarState> {
-  EventList<Event> eventList = EventList(events: {
-    DateTime.now(): [Event(date: DateTime.now())]
-  });
-  DateTime? selectedDate;
+  EventList<CalendarEntry> eventList = EventList(events: {});
+  DateTime selectedDate = DateTime.now();
+  Map<String, (List<int>, List<String>)> rawCalendarData = {};
 
-  String skillOfTheWeek = "";
-  String numSkillsUsed = "";
-  String mindfulness = "";
-  String bestSkill = "";
-  String bestValue = "";
+  // Future, das die Eventtitel lädt.
+  late Future<void> _loadCalendarFuture;
 
-  // Wir entfernen den globalen _computedRingColor – stattdessen berechnen wir für jeden Tag individuell.
+  Future<void> fetchRawCalendarData() async {
+    rawCalendarData =
+    await ConfigHandler.skillProtocollDataHandler.fetchCalendarData(
+        DateFormat('dd.MM.yyyy').format(selectedDate));
+  }
 
-  /// Hilfsfunktion zur Berechnung des Farbwertes (Ringfarbe) für einen bestimmten Tag
-  Future<Color> computeRingColorForDate(DateTime date) async {
-    // Hole die Daten für diesen Tag aus der DB
-    String dateKey = DateFormat('dd.MM.yyyy').format(date);
-    Map<String, String> data = await AbstractDatabaseService.directRead("SkillProtocoll", dateKey);
-    if (data.isEmpty) {
-      // Kein Eintrag – verwende z. B. einen Default-Wert (hier grün)
-      return Colors.green;
-    }
 
-    // Skill of the Week wird hier nicht zur Farb-Berechnung genutzt.
-    // Wir iterieren über alle anderen Felder:
-    int notNullValues = 0;
-    int tempMax = 0;
-    data.forEach((key, value) {
-      // Überspringe spezielle Felder
-      if (key != "skillOfTheWeek" && key != "mindfulness") {
-        if (value.isNotEmpty && value != "0") {
-          notNullValues++;
-          int val = int.tryParse(value) ?? 0;
-          if (val >= tempMax) {
-            tempMax = val;
-          }
-        }
+  // Generates eventList using the stored raw data (Map<String, (List<int>, List<String>)>)
+  Future<void> generateEventList() async {
+    // Map of DateTime -> list of CalendarEntry
+    Map<DateTime, List<CalendarEntry>> tempEvents = {};
+
+    rawCalendarData.forEach((dateStr, record) {
+      try {
+        // Parse the key (dd.MM.yyyy)
+        DateTime date = DateFormat('dd.MM.yyyy').parse(dateStr);
+
+        // Destructure record: first element is slider ints, second is titles
+        List<int> intData = record.$1;
+        List<String> stringData = record.$2;
+
+        // Create CalendarEntry with all data
+        CalendarEntry entry = CalendarEntry(
+          intData: intData,
+          stringData: stringData,
+          date: date,
+          // Optionally set an icon based on mood (second slider)
+          icon: Moodring(mood: intData[1]),
+        );
+
+        // Add to map
+        tempEvents.putIfAbsent(date, () => []).add(entry);
+      } catch (e) {
+        print('Ungültiges Datum: $dateStr');
       }
     });
 
-    int points = 0;
-    // Punkte für den besten Skill
-    if (tempMax >= 67) {
-      points += 2;
-    } else if (tempMax >= 34) {
-      points += 1;
-    }
-    // Punkte für Achtsamkeit
-    if (data["mindfulness"] != null && data["mindfulness"]!.toLowerCase() == "ja") {
-      points += 1;
-    }
-    // Punkte für Anzahl der Skills
-    if (notNullValues >= 3) {
-      points += 2;
-    } else if (notNullValues >= 1) {
-      points += 1;
-    }
-    // Gesamtpunkte (max. 5) → Lineare Interpolation von Rot (0 Punkte) zu Grün (5 Punkte)
-    double factor = points / 5.0;
-    int red = (255 * (1 - factor)).round();
-    int green = (255 * factor).round();
-    return Color.fromRGBO(red, green, 0, 1);
+    // Update state with new EventList
+    setState(() {
+      eventList = EventList(events: tempEvents);
+    });
   }
 
-  /// Angepasster Icon-Generator, der den übergebenen Farbwert nutzt
-  Widget markedIconGenerator(Color ringColor) => Container(
-    decoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.all(Radius.circular(100)),
-        border: Border.all(width: 3, color: ringColor)),
-  );
-
-  /// Lese die Vorschau-Daten für den aktuell gewählten Tag aus
-  Future<bool> getPreviewData() async {
-    // Lade zunächst alle Daten (und somit eventList) neu
-    await getDates();
-    if (eventList.events.containsKey(selectedDate!)) {
-      Map<String, String> data = await AbstractDatabaseService.directRead(
-          "SkillProtocoll", DateFormat('dd.MM.yyyy').format(selectedDate!));
-      skillOfTheWeek = data["skillOfTheWeek"].toString();
-
-      int tempInt = 0;
-      int notNullValues = 0;
-      int tempMax = 0;
-      String tempName = "";
-      data.forEach((key, value) {
-        if (value != "" && value != "0") {
-          notNullValues++;
-          tempInt = int.tryParse(value) ?? 0;
-          if (tempInt >= tempMax) {
-            tempMax = tempInt;
-            tempName = key;
-          }
-        }
-      });
-      numSkillsUsed = notNullValues.toString();
-      bestSkill = tempName;
-      bestValue = tempMax.toString();
-
-      // Diese Berechnung erfolgt hier nur für die Vorschau (den aktuell gewählten Tag).
-      int points = 0;
-      if (tempMax >= 67) {
-        points += 2;
-      } else if (tempMax >= 34) {
-        points += 1;
-      }
-      if (data["mindfulness"] != null && data["mindfulness"]!.toLowerCase() == "ja") {
-        points += 1;
-        mindfulness = "Ja";
-      } else {
-        mindfulness = "Nein";
-      }
-      if (notNullValues >= 3) {
-        points += 2;
-      } else if (notNullValues >= 1) {
-        points += 1;
-      }
-
-      // Berechne den Farbwert für den aktuell gewählten Tag:
-      double factor = points / 5.0;
-      int red = (255 * (1 - factor)).round();
-      int green = (255 * factor).round();
-      // Aktualisiere die Vorschau (falls gewünscht)
-      setState(() {
-        // Hier könnte man _computedRingColor nur für selectedDate setzen, wenn benötigt.
-        // Für die Kalenderansicht wird die Farbe pro Tag in getDates() berechnet.
-      });
-      return true;
-    }
-    return false;
-  }
-
-  /// Lese alle Datumseinträge aus der DB für das Skill-Protokoll und berechne jeweils den individuellen Farbwert.
-  Future<bool> getDates() async {
-    List<String> dateStrings = [];
-    Map<DateTime, List<Event>> temp = {};
-    await AbstractDatabaseService.getFullColumn("SkillProtocoll", "PrimaryKey")
-        .then((value) => dateStrings = value!);
-    for (String date in dateStrings) {
-      DateTime converted =
-      DateTime.parse(StringUtil.getRetardedDateFormat(date));
-      // Berechne den individuellen Farbwert für dieses Datum:
-      Color ringColor = await computeRingColorForDate(converted);
-      List<Event> event =
-      [Event(date: converted, icon: markedIconGenerator(ringColor))];
-      temp.putIfAbsent(converted, () => event);
-    }
-    eventList = EventList(events: temp);
-    return true;
+  FutureOr onGoBack(dynamic value) async {
+    await fetchRawCalendarData();
+    await generateEventList();
   }
 
   @override
   void initState() {
     super.initState();
-    // Stelle sicher, dass selectedDate initialisiert wird.
-    selectedDate ??= DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    selectedDate = DateTime.now();
+
+    _loadCalendarFuture = () async {
+      await fetchRawCalendarData();
+      await generateEventList();
+    }();
   }
+
 
   @override
   Widget build(BuildContext context) {
-    // Falls selectedDate noch nicht gesetzt ist, initialisiere auf heute.
-    selectedDate ??= DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day);
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -206,77 +110,44 @@ class _SkillProtocollCalendarState extends State<SkillProtocollCalendarState> {
           shadowColor: Colors.transparent,
         ),
         body: MainContainer(
-          backgroundImage: AssetImage("lib/resources/WallpaperProtocoll.png"),
+          backgroundImage: const AssetImage(
+              "lib/resources/WallpaperProtocoll.png"),
           child: SingleChildScrollView(
             child: Column(
               children: [
+
+                // Kalenderbereich
                 FutureBuilder(
-                  future: getDates(),
-                  builder: (context, AsyncSnapshot<bool> snapshot) {
-                    if (snapshot.hasData) {
-                      return SizedBox(
-                        width: MediaQuery.of(context).size.width / 1.1,
-                        height: MediaQuery.of(context).size.height / 1.86,
-                        child: CalendarCarousel<Event>(
-                          locale: "de",
-                          headerTextStyle: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.white,
-                          ),
-                          weekdayTextStyle: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                          ),
-                          markedDatesMap: eventList,
-                          markedDateShowIcon: true,
-                          markedDateIconMaxShown: 1,
-                          markedDateIconMargin: 0,
-                          selectedDayButtonColor:
-                          Color.fromRGBO(255, 255, 255, .2),
-                          todayButtonColor:
-                          Color.fromRGBO(50, 50, 50, .45),
-                          todayTextStyle:
-                          TextStyle(fontSize: 14, color: Colors.white),
-                          weekendTextStyle: TextStyle(
-                              color: Colors.black, fontSize: 14),
-                          markedDateIconBuilder: (event) {
-                            return event.icon;
-                          },
-                          onDayPressed: (date, events) {
-                            setState(() {
-                              selectedDate = date;
-                            });
-                          },
-                          selectedDateTime: selectedDate,
-                        ),
-                      );
-                    }
+                  future: _loadCalendarFuture,
+                  builder: (context, AsyncSnapshot<void> snapshot) {
                     return SizedBox(
-                      width: MediaQuery.of(context).size.width / 1.1,
-                      height: MediaQuery.of(context).size.height / 1.86,
-                      child: CalendarCarousel<Event>(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width / 1.1,
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height / 1.86,
+                      child: CalendarCarousel<CalendarEntry>(
                         locale: "de",
-                        headerTextStyle: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.white,
-                        ),
-                        weekdayTextStyle: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                        ),
-                        markedDatesMap: EventList<Event>(
-                            events: <DateTime, List<Event>>{}),
+                        headerTextStyle: const TextStyle(
+                            fontSize: 20.0, color: Colors.white),
+                        weekdayTextStyle: const TextStyle(
+                            fontSize: 14, color: Colors.white),
+                        markedDatesMap: eventList,
+                        markedDateShowIcon: true,
+                        markedDateIconMaxShown: 1,
+                        markedDateIconMargin: 0,
                         selectedDayButtonColor:
-                        Color.fromRGBO(255, 255, 255, .2),
+                        const Color.fromRGBO(255, 255, 255, .2),
                         todayButtonColor:
-                        Color.fromRGBO(50, 50, 50, .45),
-                        todayTextStyle:
-                        TextStyle(fontSize: 14, color: Colors.white),
-                        weekendTextStyle: TextStyle(
+                        const Color.fromRGBO(50, 50, 50, .45),
+                        todayTextStyle: const TextStyle(
+                            fontSize: 14, color: Colors.white),
+                        weekendTextStyle: const TextStyle(
                             color: Colors.black, fontSize: 14),
-                        markedDateIconBuilder: (event) {
-                          return event.icon;
-                        },
+                        markedDateIconBuilder: (event) => event.icon,
                         onDayPressed: (date, events) {
                           setState(() {
                             selectedDate = date;
@@ -287,42 +158,57 @@ class _SkillProtocollCalendarState extends State<SkillProtocollCalendarState> {
                     );
                   },
                 ),
+                // Event-Display-Bereich
                 InkWell(
-                  child: FutureBuilder(
-                    future: getPreviewData(),
-                    builder: (context, AsyncSnapshot<bool> snapshot) {
-                      if (snapshot.data == true) {
+                  child: Builder(
+                    builder: (context) {
+                      final entries = eventList.getEvents(selectedDate);
+                      if (entries.isNotEmpty) {
+                        final entry = entries.first;
+
                         return SProtPreview(
-                          skillOfTheWeek: skillOfTheWeek,
-                          numSkillsUsed: numSkillsUsed,
-                          mindfulness: mindfulness,
-                          bestSkill: bestSkill,
-                          bestValue: bestValue,
+                          skillOfTheWeek: entry.stringData.isNotEmpty ? entry
+                              .stringData[0] : "-",
+                          bestSkill: entry.stringData.length > 1 ? entry
+                              .stringData[1] : "-",
+                          mindfulness: entry.stringData.length > 2 ? entry
+                              .stringData[2] : "-",
+                          bestValue: entry.intData.isNotEmpty ? entry.intData[0]
+                              .toString() : "-",
+                          numSkillsUsed: entry.intData.length > 1 ? entry
+                              .intData[1].toString() : "-",
                         );
                       }
-                      return ContentCard(
-                        doubleX: 1.1,
-                        doubleY: 2.8,
-                        children: [
-                          Padding(padding: EdgeInsets.all(44)),
-                          Text(
-                            "Neues Skill-Protokoll Erstellen",
-                            style: TextStyle(fontSize: 16, color: Colors.white),
-                          ),
-                        ],
-                      );
+                      else {
+                        return ContentCard(
+                          doubleX: 1.1,
+                          doubleY: 2.8,
+                          children: [
+                            Padding(padding: EdgeInsets.all(44)),
+                            Text(
+                              "Neues Skill-Protokoll Erstellen",
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.white),
+                            ),
+                          ],
+                        );
+                      }
                     },
                   ),
                   onTap: () {
+                    ConfigHandler.skillProtocollDataHandler.initIntegerData([]);
+                    ConfigHandler.skillProtocollDataHandler.initTextData([]);
+                    ConfigHandler.skillProtocollDataHandler.initBooleanData([]);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SkillProtocollTemplate(
-                          selectedDate:
-                          DateFormat('dd.MM.yyyy').format(selectedDate!),
-                        ),
+                        builder: (context) =>
+                            SkillProtocollTemplate(
+                              selectedDate:
+                              DateFormat('dd.MM.yyyy').format(selectedDate),
+                            ),
                       ),
-                    );
+                    ).then(onGoBack);
                   },
                 )
               ],
