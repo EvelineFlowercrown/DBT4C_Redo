@@ -8,8 +8,10 @@ import 'package:dbt4c_rebuild/widgets/mainContainer.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
+import 'package:dbt4c_rebuild/dataHandlers/configHandler.dart';
 import 'package:dbt4c_rebuild/helpers/abstactDatabaseService.dart';
 import 'package:dbt4c_rebuild/helpers/stringUtil.dart';
+
 
 class SkillProtocollCalendar extends StatelessWidget {
   const SkillProtocollCalendar({super.key});
@@ -17,19 +19,19 @@ class SkillProtocollCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SkillProtocollMenuState(),
+      body: SkillProtocollCalendarState(),
     );
   }
 }
 
-class SkillProtocollMenuState extends StatefulWidget {
-  const SkillProtocollMenuState({super.key});
+class SkillProtocollCalendarState extends StatefulWidget {
+  const SkillProtocollCalendarState({super.key});
 
   @override
-  _SkillProtocollMenuState createState() => _SkillProtocollMenuState();
+  _SkillProtocollCalendarState createState() => _SkillProtocollCalendarState();
 }
 
-class _SkillProtocollMenuState extends State<SkillProtocollMenuState> {
+class _SkillProtocollCalendarState extends State<SkillProtocollCalendarState> {
   EventList<Event> eventList = EventList(events: {
     DateTime.now(): [Event(date: DateTime.now())]
   });

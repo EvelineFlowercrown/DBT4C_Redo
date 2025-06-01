@@ -38,7 +38,12 @@ abstract class LayoutGenerator{
             break;
 
           case "ChipPanel":
-            children.add(generateChipPanel(primaryKey, dataHandler));
+            if (element.containsKey("label")) {
+              children.add(generateChipPanel(primaryKey, dataHandler, element["label"]));
+            }
+            else{
+              children.add(generateChipPanel(primaryKey, dataHandler, ""));
+            }
             break;
 
           case "Contentcard":
@@ -103,9 +108,9 @@ abstract class LayoutGenerator{
     return children;
   }
 
-  static Widget generateChipPanel(String? primaryKey, DataHandler dataHandler){
+  static Widget generateChipPanel(String? primaryKey, DataHandler dataHandler, String text){
     return ChipPanel(
-        text: "Wahrgenommene Emotionen",
+        text: text,
         chips: dataHandler.getBooleanData(),
         onChanged: (String key){
           ConfigHandler.diaryCardEventDataHandler.saveData(primaryKey);
@@ -164,6 +169,13 @@ abstract class LayoutGenerator{
             children.add(PrefilledDateField(date: date));
             break;
 
+          case "label":
+            final fontSize = item['fontSize'] != null ? int.tryParse(item['fontSize'].toString()) : 16;
+            children.add(Text(item["text"],
+                style: TextStyle(
+                    fontSize: fontSize!.toDouble(),
+                    color: Color(0xFF333F49))));
+            children.add(Padding(padding: EdgeInsets.all(5)));
         }
       }
     }

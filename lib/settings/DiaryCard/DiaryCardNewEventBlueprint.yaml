@@ -16,6 +16,7 @@ Layout:
         maxLines: "6"
   - #perceived_emotions Chip Panel
     type: "ChipPanel"
+    label: "Wahrgenommene Emotionen:"
     content:
       - "Freude"
       - "Zufriedenheit"
