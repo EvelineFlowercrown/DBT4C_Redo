@@ -1,84 +1,122 @@
+//import 'package:dbt4c_rebuild/dataHandlers/skillProtocollDataHandler.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:yaml/yaml.dart';
 import 'package:dbt4c_rebuild/dataHandlers/diaryCardDataHandler.dart';
+import 'diaryCardEventDataHandler.dart';
+import 'package:dbt4c_rebuild/helpers/DebugPrint.dart';
 
 abstract class ConfigHandler {
-  static List<String> dCardTextFields = ["dailyGoal","weeklyGoal"];
+
+  static List<String> dCardTextFields = [];
   static List<String> dCardSliders = [];
-  static List<String> dCardEventTextFields = ["title","shortDescription"];
+
+  static List<String> dCardEventTextFields = [];
   static List<String> dCardEventSliders = [];
   static List<String> dCardEmotions = [];
+
   static List<String> dCardSummary = [];
+
   static List<String> sProtTextFields = [];
   static List<String> sProtSliders = [];
-  static List dCardContentCards = [];
-  static List dCardEventContentCards = [];
-  static dynamic dCardEventLeadingContentCard = [];
 
-  static Future<void> initDiaryCardConfig() async {
+  static late DiaryCardDataHandler diaryCardDataHandler;
+  //static SkillProtocollDataHandler skillProtocollDataHandler = SkillProtocollDataHandler();
+  static late DiaryCardEventDataHandler diaryCardEventDataHandler;
+
+  static initDiaryCardConfig() async {
     final yamlString = await rootBundle.loadString(
-        'lib/settings/diaryCardSettings.yaml');
-    final diaryCardSettings = loadYaml(yamlString);
+        'lib/settings/DiaryCard/DiaryCardBlueprint.yaml');
+    diaryCardDataHandler = DiaryCardDataHandler(
+        extractTextfields(yamlString),
+        extractSliders(yamlString),
+        extractUniqueChips(yamlString));
+    debugFinished("ConfigHandler.initDiaryCardConfig");
+  }
 
-    // Für die normalen Content Cards:
-    for (var contentcardWrapper in diaryCardSettings['content_cards'] ?? []) {
-      // Greife zuerst auf das innere Map zu:
-      var contentcard = contentcardWrapper['content_card'];
-      dCardContentCards.add(contentcard);
-      for (var item in contentcard['content_card_items'] ?? []) {
-        if (item['type'] == 'slider') {
-          dCardSliders.add(item['id']);
-          //print("added slider ${item['id']}");
-        } else if (item['type'] == 'textfield') {
-          dCardTextFields.add(item['id']);
-          //print("added textfield ${item['id']}");
-        }
-      }
-    }
+  static initDiaryCardEventConfig() async {
+    final yamlString = await rootBundle.loadString(
+        'lib/settings/DiaryCard/DiaryCardNewEventBlueprint.yaml');
+    diaryCardEventDataHandler = DiaryCardEventDataHandler(
+        extractTextfields(yamlString),
+        extractSliders(yamlString),
+        extractUniqueChips(yamlString));
+    debugFinished("ConfigHandler.initDiaryCardEventConfig");
+  }
 
-    var events = diaryCardSettings['diarycardevents'];
-    if (events != null) {
-      dCardEventLeadingContentCard = events['LeadingCard'];
 
-      // Perceived Emotions:
-      for (var emotion in events['perceived_emotions']['emotions'] ?? []) {
-        dCardEmotions.add(emotion);
-        //print("added emotion $emotion");
-      }
-      for (var eventCard in events['content_cards'] ?? []) {
-        dCardEventContentCards.add(eventCard);
-        for (var item in eventCard['items'] ?? []) {
-          if (item['type'] == 'slider') {
-            dCardEventSliders.add(item['id']);
-            //print("added event slider ${item['id']}");
-          } else if (item['type'] == 'textfield') {
-            dCardEventTextFields.add(item['id']);
-            //print("added event textfield ${item['id']}");
+
+  static List<String> extractTextfields(String yamlString) {
+    debugPrint("ConfigHandler.extractTextfields", "Extracting textfields...");
+    final blueprint = loadYaml(yamlString);
+    final elementList = blueprint["Layout"];
+
+    List<String> textfields = [];
+
+    for (final element in elementList) {
+      final content = element['content'];
+      if (content is YamlList) {
+        for (final item in content) {
+          if (item is YamlMap && (item['type'] == 'textfield' || item['type'] == 'icontextfield')) {
+            final id = item['id'];
+            if (id != null) {
+              textfields.add(id.toString());
+              debugAddElement("ConfigHandler.extractTextfields", id.toString(), "textfields");
+            }
           }
         }
       }
-
     }
 
-    DiaryCardDataHandler.initSliderData();
-    DiaryCardDataHandler.initTextFieldData();
-    DiaryCardDataHandler.initEventChipData();
-    DiaryCardDataHandler.initEventTextFieldData();
-    await DiaryCardDataHandler.setupDiaryCardDBTables();
+    debugPrint("ConfigHandler.extractTextfields", "Found ${textfields.length} textfields");
+    return textfields;
   }
-  static Future<void> initSkillProtocollConfig() async {
-    final yamlString = await rootBundle.loadString(
-        'lib/settings/skillProtocollSettings.yaml');
-    final skillProtocollSettings = loadYaml(yamlString);
 
-    for (var contentcard in skillProtocollSettings['content_cards'] ?? []) {
-      for (var item in contentcard['content_card_items'] ?? []) {
-        if (item['type'] == 'slider') {
-          sProtSliders.add(item['id']);
-        } else if (item['type'] == 'textfield') {
-          sProtTextFields.add(item['id']);
+  static List<String> extractSliders(String yamlString) {
+    debugPrint("ConfigHandler.extractSliders", "Extracting sliders...");
+    final blueprint = loadYaml(yamlString);
+    final elementList = blueprint["Layout"];
+
+    List<String> sliders = [];
+
+    for (final element in elementList) {
+      final content = element['content'];
+      if (content is YamlList) {
+        for (final item in content) {
+          if (item is YamlMap && item['type'] == 'slider') {
+            final id = item['id'];
+            if (id != null) {
+              sliders.add(id.toString());
+              debugAddElement("ConfigHandler.extractSliders", id.toString(), "sliders");
+            }
+          }
         }
       }
     }
+
+    debugPrint("ConfigHandler.extractSliders", "Found ${sliders.length} sliders");
+    return sliders;
+  }
+
+  static List<String> extractUniqueChips(String yamlString) {
+    debugPrint("ConfigHandler.extractUniqueChips", "Extracting chips...");
+    final blueprint = loadYaml(yamlString);
+    final elementList = blueprint["Layout"];
+
+    List<String> chipSet = [];
+
+    for (final element in elementList) {
+      if (element is YamlMap && element['type'] == 'ChipPanel') {
+        final content = element['content'];
+        if (content is YamlList) {
+          for (final chip in content) {
+            chipSet.add(chip.toString());
+            debugAddElement("ConfigHandler.extractUniqueChips", chip.toString(), "chipSet");
+          }
+        }
+      }
+    }
+
+    debugPrint("ConfigHandler.extractUniqueChips", "Found ${chipSet.length} chips");
+    return chipSet.toList();
   }
 }

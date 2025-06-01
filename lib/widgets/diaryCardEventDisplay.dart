@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dbt4c_rebuild/helpers/expandableWidgetPanel.dart';
+import 'package:dbt4c_rebuild/widgets/expandableWidgetPanel.dart';
 
 class DiaryCardEventDisplay extends StatefulWidget {
   final String eventName;

@@ -1,16 +1,16 @@
 import 'package:dbt4c_rebuild/screens/diarycardCalendar.dart';
 import 'package:flutter/material.dart';
-import 'package:dbt4c_rebuild/helpers/menu_button.dart';
+import 'package:dbt4c_rebuild/widgets/menu_button.dart';
 import 'package:flutter/services.dart';
 import 'package:dbt4c_rebuild/screens/settings.dart';
 import 'package:dbt4c_rebuild/screens/user.dart';
-import 'package:dbt4c_rebuild/screens/skillProtocoll.dart';
+import 'package:dbt4c_rebuild/screens/skillProtocollCalendar.dart';
 import 'package:dbt4c_rebuild/dataHandlers/configHandler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   ConfigHandler.initDiaryCardConfig();
-  ConfigHandler.initSkillProtocollConfig();
+  ConfigHandler.initDiaryCardEventConfig();
   runApp(MaterialApp(
     title: "DBT4C",
     home: MainMenu(),
@@ -94,7 +94,7 @@ class MainMenu extends StatelessWidget {
                 MainMenuButton(
                   onPressed: () {
                     Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SkillProtocollMenu()),
+                      MaterialPageRoute(builder: (context) => SkillProtocollCalendar()),
                     );
                   },
                   colorProperty: Color.fromRGBO(136, 100, 136, .3),

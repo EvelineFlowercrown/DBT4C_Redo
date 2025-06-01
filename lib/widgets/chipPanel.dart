@@ -1,5 +1,5 @@
-import 'package:dbt4c_rebuild/helpers/booleanSelectionChip.dart';
-import 'package:dbt4c_rebuild/helpers/wrapCard.dart';
+import 'package:dbt4c_rebuild/widgets/booleanSelectionChip.dart';
+import 'package:dbt4c_rebuild/widgets/wrapCard.dart';
 import 'package:flutter/material.dart';
 
 class ChipPanel extends StatefulWidget {

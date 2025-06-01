@@ -1,7 +1,7 @@
 import 'package:dbt4c_rebuild/dataHandlers/database.dart';
 import 'package:flutter/material.dart';
-import 'package:dbt4c_rebuild/helpers/mainContainer.dart';
-import 'package:dbt4c_rebuild/helpers/default_subAppBar.dart';
+import 'package:dbt4c_rebuild/widgets/mainContainer.dart';
+import 'package:dbt4c_rebuild/widgets/default_subAppBar.dart';
 
 class SettingsMenu extends StatefulWidget {
   const SettingsMenu({super.key});
@@ -84,7 +84,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
                   child: Container(
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.3),
+                      color: Color.fromRGBO(0, 0, 0, .3),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: ListView(

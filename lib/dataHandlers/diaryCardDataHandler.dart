@@ -1,116 +1,95 @@
 import 'package:dbt4c_rebuild/dataHandlers/database.dart';
 import 'package:sqflite/sqflite.dart';
-import 'configHandler.dart';
+import 'dataHandler.dart';
+import 'package:dbt4c_rebuild/helpers/DebugPrint.dart';
 
-abstract class DiaryCardDataHandler{
-  static Map<String,String> textFieldData = {};
-  static Map<String,int> sliderData = {};
+class DiaryCardDataHandler implements DataHandler{
+  Map<String,String> textFieldData = {};
+  Map<String,int> sliderData = {};
+  Map<String,bool> chipData = {};
 
-  static Map<String,int> eventSliderData = {};
-  static Map<String,String> eventTextFieldData = {};
-  static Map<String,bool> eventChipData = {};
-
-  static Map<String,String> summaryData = {
-    "trophy_value":"",
-    "happy_value":"",
-    "sad_value":"",
-    "stats_value":""
-  };
+  DiaryCardDataHandler(List<String> textFields, List<String> sliders, List<String> chips){
+    initIntegerData(sliders);
+    initTextData(textFields);
+    initBooleanData(chips);
+    setupDBTable();
+  }
 
   //region init
   // Initialize all text fields to empty strings
-  static initTextFieldData(){
-    print('DiaryCardDataHandler.initTextFieldData: called');
-    for(int i=0; i < ConfigHandler.dCardTextFields.length; i++){
-      final field = ConfigHandler.dCardTextFields[i].toString();
-      print('DiaryCardDataHandler.initTextFieldData: initializing field $field with empty string');
+  @override
+  initTextData(List<String> textFields){
+    debugCalledWithParameters("DiaryCardDataHandler.initTextData", textFields);
+    for(int i=0; i < textFields.length; i++){
+      final field = textFields[i].toString();
+      debugChangedValue("DiaryCardDataHandler.initTextData", field, "empty String");
       textFieldData.putIfAbsent(field, () => "");
       textFieldData.update(field, (oldValue) => "");
     }
-    print('DiaryCardDataHandler.initTextFieldData: operation successful');
+    debugFinished("DiaryCardDataHandler.initTextData");
   }
 
   // Initialize all slider values to zero
-  static initSliderData(){
-    print('DiaryCardDataHandler.initSliderData: called');
-    for(int i=0; i < ConfigHandler.dCardSliders.length; i++){
-      final slider = ConfigHandler.dCardSliders[i].toString();
-      print('DiaryCardDataHandler.initSliderData: initializing slider $slider with 0');
+  @override
+  initIntegerData(List<String> sliders){
+    debugCalledWithParameters("DiaryCardDataHandler.initIntegerData", sliders);
+    for(int i=0; i < sliders.length; i++){
+      final slider = sliders[i].toString();
+      debugChangedValue("DiaryCardDataHandler.initIntegerData", slider, "0");
       sliderData.putIfAbsent(slider, () => 0);
       sliderData.update(slider, (oldValue) => 0);
     }
-    print('DiaryCardDataHandler.initSliderData: operation successful');
+    debugFinished("DiaryCardDataHandler.initIntegerData");
   }
 
-  // Initialize event text fields to empty strings
-  static initEventTextFieldData(){
-    print('DiaryCardDataHandler.initEventTextFieldData: called');
-    for(int i=0; i < ConfigHandler.dCardEventTextFields.length; i++){
-      final field = ConfigHandler.dCardEventTextFields[i].toString();
-      print('DiaryCardDataHandler.initEventTextFieldData: initializing event text field $field');
-      eventTextFieldData.putIfAbsent(field, () => "");
-      eventTextFieldData.update(field, (oldValue) => "");
+  @override
+  initBooleanData(List<String> chips){
+    debugCalledWithParameters("DiaryCardDataHandler.initBooleanData", chips);
+    for(int i=0; i < chips.length; i++){
+      final chip = chips[i].toString();
+      debugChangedValue("DiaryCardDataHandler.initBooleanData", chip, "false");
+      chipData.putIfAbsent(chip, () => false);
+      chipData.update(chip, (oldValue) => false);
     }
-    print('DiaryCardDataHandler.initEventTextFieldData: operation successful');
-  }
-
-  // Initialize event chips (boolean flags) to false
-  static initEventChipData(){
-    print('DiaryCardDataHandler.initEventChipData: called');
-    for(int i=0; i < ConfigHandler.dCardEmotions.length; i++){
-      final chip = ConfigHandler.dCardEmotions[i].toString();
-      print('DiaryCardDataHandler.initEventChipData: initializing event chip $chip to false');
-      eventChipData.putIfAbsent(chip, () => false);
-      eventChipData.update(chip, (oldValue) => false);
-    }
-    print('DiaryCardDataHandler.initEventChipData: operation successful');
+    debugFinished("DiaryCardDataHandler.initBooleanData");
   }
 
   //endregion init
 
   // Setup database tables for entries and events
-  static Future<void> setupDiaryCardDBTables() async {
-    print('DiaryCardDataHandler.setupDiaryCardDBTables: called');
+  @override
+  Future<void> setupDBTable() async {
     final db = await DatabaseProvider().database;
 
     // Create or update entries table with text and integer columns
     await DatabaseProvider.setupTable(
         db: db,
         tableName: 'DiaryCardEntries',
-        stringColums: ConfigHandler.dCardTextFields,
-        integerColums: ConfigHandler.dCardSliders
+        stringColums: textFieldData.keys.toList(),
+        integerColums: sliderData.keys.toList(),
+        booleanColums: chipData.keys.toList()
     );
-    print('DiaryCardDataHandler.setupDiaryCardDBTables: DiaryCardEntries table ready');
-
-    // Create or update events table with text and integer columns
-    await DatabaseProvider.setupTable(
-        db: db,
-        tableName: 'DiaryCardEvents',
-        stringColums: ConfigHandler.dCardEventTextFields,
-        integerColums: ConfigHandler.dCardEventSliders,
-        booleanColums: ConfigHandler.dCardEmotions
-    );
-    print('DiaryCardDataHandler.setupDiaryCardDBTables: DiaryCardEvents table ready');
-    print('DiaryCardDataHandler.setupDiaryCardDBTables: operation successful');
+    debugFinished("DiaryCardDataHandler.setupDBTable");
   }
 
   //region Diarycard
   // Save the user's diary entry for a specific date
-  static Future<void> saveDiaryEntry(String dateStr) async {
-    print('DiaryCardDataHandler.saveDiaryEntry: called with parameters dateStr=$dateStr');
+  @override
+  Future<void> saveData(String dateStr) async {
+    debugCalledWithParameters("DiaryCardDataHandler.saveData", [dateStr]);
     final db = await DatabaseProvider().database;
     final data = <String, dynamic>{'date': dateStr};
 
     // Add text fields to data map
-    for (var field in ConfigHandler.dCardTextFields) {
+    for (var field in textFieldData.keys) {
       data[field] = textFieldData[field];
-      print('DiaryCardDataHandler.saveDiaryEntry: adding text field $field = ${textFieldData[field]}');
+      debugSaveDB("DiaryCardDataHandler.saveData", textFieldData[field]!, field, "DiaryCardEntries");
     }
 
     // Add slider values to data map
-    for (var slider in ConfigHandler.dCardSliders) {
+    for (var slider in sliderData.keys) {
       data[slider] = sliderData[slider];
-      print('DiaryCardDataHandler.saveDiaryEntry: adding slider $slider = ${sliderData[slider]}');
+      debugSaveDB("DiaryCardDataHandler.saveData", sliderData[slider]!.toString(), slider, "DiaryCardEntries");
     }
 
     // Insert or replace entry into database
@@ -119,12 +98,13 @@ abstract class DiaryCardDataHandler{
       data,
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    print('DiaryCardDataHandler.saveDiaryEntry: operation successful');
+    debugFinished("DiaryCardDataHandler.saveData");
   }
 
   // Load a diary entry into memory, returns true even if nothing found
-  static Future<bool> loadDiaryEntry(String dateStr) async {
-    print('DiaryCardDataHandler.loadDiaryEntry: called with parameters dateStr=$dateStr');
+  @override
+  Future<bool> loadData(String dateStr) async {
+    debugCalledWithParameters("DiaryCardDataHandler.loadData", [dateStr]);
     final db = await DatabaseProvider().database;
 
     // Query table for the given date
@@ -133,115 +113,32 @@ abstract class DiaryCardDataHandler{
       where: 'date = ?',
       whereArgs: [dateStr],
     );
-    print('DiaryCardDataHandler.loadDiaryEntry: query returned ${results.length} rows');
-
     if (results.isNotEmpty) {
       final row = results.first;
-      ConfigHandler.dCardTextFields.forEach((field) {
+      for (var field in textFieldData.keys) {
         textFieldData[field] = row[field]?.toString() ?? '';
-        print('DiaryCardDataHandler.loadDiaryEntry: loaded textField $field = ${textFieldData[field]}');
-      });
-      ConfigHandler.dCardSliders.forEach((slider) {
+        debugLoadDB("DiaryCardDataHandler.loadData", textFieldData[field]!, field, "DiaryCardEntries");
+      }
+      for (var slider in sliderData.keys) {
         sliderData[slider] = row[slider] as int? ?? 0;
-        print('DiaryCardDataHandler.loadDiaryEntry: loaded slider $slider = ${sliderData[slider]}');
-      });
+        debugLoadDB("DiaryCardDataHandler.loadData", sliderData[slider]!.toString(), slider, "DiaryCardEntries");
+      }
     } else {
-      print('DiaryCardDataHandler.loadDiaryEntry: no entry found for date $dateStr');
+        print('DiaryCardDataHandler.loadData: no entry found for date $dateStr');
+      for (var slider in sliderData.keys) {
+        sliderData[slider] = 0;
+        debugChangedValue("DiaryCardDataHandler.loadData", slider, sliderData[slider].toString());
+      }
+      for (var field in textFieldData.keys) {
+        textFieldData[field] = '';
+        debugChangedValue("DiaryCardDataHandler.loadData", field, "empty String");
+      }
     }
     return true;
   }
   //endregion Diarycard
 
-  //region Events
 
-  // Load a Event entry into memory, returns true even if nothing found
-  static Future<bool> loadDiaryEventEntry(String key) async {
-    print('DiaryCardDataHandler.loadDiaryEventEntry: called with parameters dateStr=$key');
-    final db = await DatabaseProvider().database;
-
-    // Query table for the given date
-    final results = await db.query(
-      'DiaryCardEvents',
-      where: 'id = ?',
-      whereArgs: [key],
-    );
-    print('DiaryCardDataHandler.loadDiaryEventEntry: query returned ${results.length} rows');
-
-    if (results.isNotEmpty) {
-      final row = results.first;
-      ConfigHandler.dCardEventTextFields.forEach((field) {
-        eventTextFieldData[field] = row[field]?.toString() ?? '';
-        print('DiaryCardDataHandler.loadDiaryEventEntry: loaded textField $field = ${eventTextFieldData[field]}');
-      });
-      ConfigHandler.dCardEventSliders.forEach((slider) {
-        eventSliderData[slider] = row[slider] as int? ?? 0;
-        print('DiaryCardDataHandler.loadDiaryEventEntry: loaded slider $slider = ${eventSliderData[slider]}');
-      });
-      print(ConfigHandler.dCardEmotions);
-      ConfigHandler.dCardEmotions.forEach((chip) {
-        try {
-          final value = row[chip];
-          eventChipData[chip] = value == 1;
-          print('DiaryCardDataHandler.loadDiaryEventEntry: loaded chip $chip = ${eventChipData[chip]}');
-        } catch (e, stack) {
-          print('Fehler beim Laden von chip "$chip": ${row[chip]} (${row[chip]?.runtimeType})');
-          print('Exception: $e');
-        }
-      });
-    } else {
-      print('DiaryCardDataHandler.loadDiaryEventEntry: no entry found for date $key');
-    }
-    return true;
-  }
-
-  // Load all event rows for a date
-  static Future<List<Map<String, Object?>>> loadAllEvents(String dateStr) async {
-    print('DiaryCardDataHandler.loadAllEvents: called with parameters dateStr=$dateStr');
-    final db = await DatabaseProvider().database;
-    final results = await db.query(
-        'DiaryCardEvents',
-        where: 'date = ?',
-        whereArgs: [dateStr]
-    );
-    print('DiaryCardDataHandler.loadAllEvents: retrieved ${results.length} events');
-    print('DiaryCardDataHandler.loadAllEvents: operation successful');
-    return results;
-  }
-
-  // Save a single diary card event
-  static Future<void> saveDiaryCardEvent(String? date, String? id) async {
-    if (eventTextFieldData["title"] != "") {
-      print('DiaryCardDataHandler.saveDiaryCardEvent: called with parameters date=$date, id=$id');
-      final db = await DatabaseProvider().database;
-      final data = <String, dynamic>{'date': date!, 'id': id!};
-
-      // Potential bug: using wrong map for event data; ensure correct map is referenced
-      ConfigHandler.dCardEventTextFields.forEach((field) {
-        data[field] = eventTextFieldData[field] ?? '';
-        print('DiaryCardDataHandler.saveDiaryCardEvent: adding event text field $field = ${eventTextFieldData[field]}');
-      });
-      ConfigHandler.dCardEventSliders.forEach((slider) {
-        data[slider] = eventSliderData[slider] ?? 0;
-        print('DiaryCardDataHandler.saveDiaryCardEvent: adding event slider $slider = ${eventSliderData[slider]}');
-      });
-      ConfigHandler.dCardEmotions.forEach((chip) {
-        data[chip] = eventChipData[chip]! ? 1 : 0;
-        print('DiaryCardDataHandler.saveDiaryCardEvent: adding event chip $chip = ${eventChipData[chip]}');
-      });
-
-      await db.insert(
-        'DiaryCardEvents',
-        data,
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-      print('DiaryCardDataHandler.saveDiaryCardEvent: operation successful');
-    }
-    else {
-      print("no title");
-    }
-  }
-
-  //endregion Events
 
   //region chips
 
@@ -250,18 +147,15 @@ abstract class DiaryCardDataHandler{
   //endregion chips
 
   // Delete an entry or event directly by primary key
-  static Future<bool> directDelete(String tableName, String primaryKey) async{
-    print('DiaryCardDataHandler.directDelete: called with parameters tableName=$tableName, primaryKey=$primaryKey');
-    await DatabaseProvider.directDelete(DatabaseProvider().database, tableName, primaryKey);
-    print('DiaryCardDataHandler.directDelete: operation successful');
-    return true;
+  @override
+  Future<void> deleteEntry(String primaryKey) async{
+    debugCalledWithParameters("DiaryCardDataHandler.deleteEntry", [primaryKey]);
+    await DatabaseProvider.directDelete(DatabaseProvider().database, "DiaryCardEntries", primaryKey);
   }
 
-  //--------------------------------------------------------------------------------
-  // Fetch calendar data for UI rendering: returns map of date->slider list
-  static Future<Map<String, (List<int>, List<String>)>> fetchCalendarData(String referenceDate) async {
-    print('fetchCalendarData: called with referenceDate=$referenceDate');
-
+  @override
+  Future<Map<String, (List<int>, List<String>)>> fetchCalendarData(String referenceDate) async {
+    debugCalledWithParameters("DiaryCardDataHandler.fetchCalendarData", [referenceDate]);
     // Parse input date (dd.MM.yyyy)
     final parts = referenceDate.split('.');
     if (parts.length != 3) {
@@ -306,11 +200,9 @@ abstract class DiaryCardDataHandler{
         substr(d.date, 1, 2);
     ''';
 
-    print('fetchCalendarData: running SQL with month filters $prev.$year, $month.$year, $next.$year');
+    debugPrint("diaryCardDataHandler.fetchCalendarData", "running SQL with month filters $prev.$year, $month.$year, $next.$year");
     final db = await DatabaseProvider().database;
     final rows = await db.rawQuery(sql);
-    print('fetchCalendarData: raw query returned ${rows.length} rows');
-
     final result = <String, (List<int>, List<String>)>{};
     for (var row in rows) {
       final date = row['date'] as String;
@@ -343,5 +235,22 @@ abstract class DiaryCardDataHandler{
     print('fetchCalendarData: operation successful');
     return result;
   }
+
+  @override
+  Map<String, bool> getBooleanData() {
+    return chipData;
+  }
+
+  @override
+  Map<String, int> getIntegerData() {
+    return sliderData;
+  }
+
+  @override
+  Map<String, String> getTextData() {
+    return textFieldData;
+  }
+
+
 }
 

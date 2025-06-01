@@ -1,10 +1,10 @@
 import 'package:dbt4c_rebuild/helpers/abstactDatabaseService.dart';
-import 'package:dbt4c_rebuild/helpers/contentCard.dart';
-import 'package:dbt4c_rebuild/helpers/dCardSlider.dart';
+import 'package:dbt4c_rebuild/widgets/contentCard.dart';
+import 'package:dbt4c_rebuild/widgets/dCardSlider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:dbt4c_rebuild/helpers/mainContainer.dart';
-import 'package:dbt4c_rebuild/helpers/default_subAppBar.dart';
+import 'package:dbt4c_rebuild/widgets/mainContainer.dart';
+import 'package:dbt4c_rebuild/widgets/default_subAppBar.dart';
 
 class SkillProtocollTemplate extends StatelessWidget {
   final String? selectedDate;

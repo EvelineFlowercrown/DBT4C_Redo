@@ -1,4 +1,4 @@
-import 'package:dbt4c_rebuild/helpers/contentCard.dart';
+import 'package:dbt4c_rebuild/widgets/contentCard.dart';
 import 'package:flutter/material.dart';
 
 class DCardPreview extends StatefulWidget {

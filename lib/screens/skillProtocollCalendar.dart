@@ -1,18 +1,18 @@
 import 'dart:async';
-import 'package:dbt4c_rebuild/helpers/stringUtil.dart';
-import 'package:dbt4c_rebuild/helpers/abstactDatabaseService.dart';
-import 'package:dbt4c_rebuild/helpers/contentCard.dart';
-import 'package:dbt4c_rebuild/helpers/sProtPreview.dart';
+import 'package:dbt4c_rebuild/widgets/contentCard.dart';
+import 'package:dbt4c_rebuild/widgets/sProtPreview.dart';
 import 'package:dbt4c_rebuild/screens/skillProtocollTemplate.dart';
 import 'package:flutter/material.dart';
-import 'package:dbt4c_rebuild/helpers/default_subAppBar.dart';
-import 'package:dbt4c_rebuild/helpers/mainContainer.dart';
+import 'package:dbt4c_rebuild/widgets/default_subAppBar.dart';
+import 'package:dbt4c_rebuild/widgets/mainContainer.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
+import 'package:dbt4c_rebuild/helpers/abstactDatabaseService.dart';
+import 'package:dbt4c_rebuild/helpers/stringUtil.dart';
 
-class SkillProtocollMenu extends StatelessWidget {
-  const SkillProtocollMenu({super.key});
+class SkillProtocollCalendar extends StatelessWidget {
+  const SkillProtocollCalendar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,6 @@ class _SkillProtocollMenuState extends State<SkillProtocollMenuState> {
     // Wir iterieren über alle anderen Felder:
     int notNullValues = 0;
     int tempMax = 0;
-    String tempName = "";
     data.forEach((key, value) {
       // Überspringe spezielle Felder
       if (key != "skillOfTheWeek" && key != "mindfulness") {
@@ -66,7 +65,6 @@ class _SkillProtocollMenuState extends State<SkillProtocollMenuState> {
           int val = int.tryParse(value) ?? 0;
           if (val >= tempMax) {
             tempMax = val;
-            tempName = key;
           }
         }
       }
@@ -154,7 +152,6 @@ class _SkillProtocollMenuState extends State<SkillProtocollMenuState> {
       double factor = points / 5.0;
       int red = (255 * (1 - factor)).round();
       int green = (255 * factor).round();
-      Color newRingColor = Color.fromRGBO(red, green, 0, 1);
       // Aktualisiere die Vorschau (falls gewünscht)
       setState(() {
         // Hier könnte man _computedRingColor nur für selectedDate setzen, wenn benötigt.

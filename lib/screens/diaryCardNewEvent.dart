@@ -1,8 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:dbt4c_rebuild/helpers/mainContainer.dart';
-import 'package:dbt4c_rebuild/helpers/default_subAppBar.dart';
+import 'package:dbt4c_rebuild/widgets/mainContainer.dart';
+import 'package:dbt4c_rebuild/widgets/default_subAppBar.dart';
 import 'package:dbt4c_rebuild/generators/diaryCardNewEventGenerator.dart';
+
 
 class DiaryCardNewEvent extends StatelessWidget{
   final String primaryKey;

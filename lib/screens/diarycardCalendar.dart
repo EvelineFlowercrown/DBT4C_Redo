@@ -1,14 +1,14 @@
 import 'dart:async';
-import 'package:dbt4c_rebuild/helpers/default_subAppBar.dart';
-import 'package:dbt4c_rebuild/helpers/mainContainer.dart';
-import 'package:dbt4c_rebuild/dataHandlers/diaryCardDataHandler.dart';
-import 'package:dbt4c_rebuild/helpers/dCardPreview.dart';
-import 'package:dbt4c_rebuild/helpers/contentCard.dart';
+import 'package:dbt4c_rebuild/dataHandlers/configHandler.dart';
+import 'package:dbt4c_rebuild/widgets/default_subAppBar.dart';
+import 'package:dbt4c_rebuild/widgets/mainContainer.dart';
+import 'package:dbt4c_rebuild/widgets/dCardPreview.dart';
+import 'package:dbt4c_rebuild/widgets/contentCard.dart';
 import 'package:dbt4c_rebuild/screens/diarycardtemplate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:intl/intl.dart';
-import 'package:dbt4c_rebuild/helpers/moodRing.dart';
+import 'package:dbt4c_rebuild/widgets/moodRing.dart';
 import 'package:dbt4c_rebuild/helpers/calendarEntry.dart';
 
 class DiaryCardCalendar extends StatelessWidget {
@@ -44,7 +44,7 @@ class _DiaryCardCalendarState extends State<DiaryCardCalendarState> {
 
   // Fetches raw calendar data and stores it in a class field
   Future<void> fetchRawCalendarData() async {
-    rawCalendarData = await DiaryCardDataHandler.fetchCalendarData(DateFormat('dd.MM.yyyy').format(selectedDate));
+    rawCalendarData = await ConfigHandler.diaryCardDataHandler.fetchCalendarData(DateFormat('dd.MM.yyyy').format(selectedDate));
   }
 
   // Generates eventList using the stored raw data (Map<String, (List<int>, List<String>)>)
@@ -185,6 +185,9 @@ class _DiaryCardCalendarState extends State<DiaryCardCalendarState> {
                     },
                   ),
                   onTap: () {
+                    ConfigHandler.diaryCardDataHandler.initIntegerData([]);
+                    ConfigHandler.diaryCardDataHandler.initTextData([]);
+                    ConfigHandler.diaryCardDataHandler.initBooleanData([]);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

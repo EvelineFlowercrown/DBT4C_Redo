@@ -70,8 +70,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - lib/settings/diaryCardSettings.yaml
-    - lib/settings/skillProtocollSettings.yaml
+    - lib/settings/DiaryCard/DiaryCardBlueprint.yaml
+    - lib/settings/DiaryCard/DiaryCardNewEventBlueprint.yaml
     - lib/resources/WallpaperMainScreen.png
     - lib/resources/DiaryCardNoBackground.png
     - lib/resources/SkillProtokollNoBackground.png

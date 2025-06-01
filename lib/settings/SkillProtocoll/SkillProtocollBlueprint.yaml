@@ -1,9 +1,8 @@
 Layout:
   - # Header Card
-    type: "Contentcard"
+    type: "HeaderCard"
     content:
       - type: "prefilleddatefield"
-        id: "date"
 
       - type: "icontextfield"
         id: "dailyGoal"
@@ -14,9 +13,6 @@ Layout:
         id: "weeklygoal"
         prefill: "Wochenziel"
         icon: "assignment_turned_in_rounded"
-  -
-    type: "dCardEventList"
-
   - # Fortschritt auf dem Neuen Weg
     type: "Contentcard"
     content:

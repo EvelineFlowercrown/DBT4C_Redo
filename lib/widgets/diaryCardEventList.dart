@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../dataHandlers/diaryCardDataHandler.dart';
+import '../dataHandlers/database.dart';
 import 'contentCard.dart';
 import 'diaryCardEventDisplay.dart';
 import '../screens/diaryCardNewEvent.dart';
+import 'package:dbt4c_rebuild/dataHandlers/configHandler.dart';
 
 class DiaryCardEventList extends StatefulWidget {
   final String date;
@@ -20,21 +20,29 @@ class _DiaryCardEventListState extends State<DiaryCardEventList> {
   @override
   void initState() {
     super.initState();
-    _loadEvents();
+    _futureEvents = _loadEvents();
   }
 
-  void _loadEvents() {
-    _futureEvents = DiaryCardDataHandler.loadAllEvents(widget.date);
+  Future<List<Map<String, Object?>>> _loadEvents() async {
+    final db = await DatabaseProvider().database;
+    final results = await db.query(
+      'DiaryCardEvents',
+      where: 'date = ?',
+      whereArgs: [widget.date],
+    );
+    print("DiaryCardEventList.loadEvents: $results");
+    print(await DatabaseProvider.getFullColumn("DiaryCardEvents","title"));
+    return results;
   }
 
   void _refresh() {
     setState(() {
-      _loadEvents();
+      _futureEvents = _loadEvents();
     });
   }
 
   Future<void> _deleteEvent(String eventKey) async {
-    await DiaryCardDataHandler.directDelete("DiaryCardEvents", eventKey);
+    await ConfigHandler.diaryCardDataHandler.deleteEntry(eventKey);
     _refresh();
   }
 
@@ -44,25 +52,28 @@ class _DiaryCardEventListState extends State<DiaryCardEventList> {
       future: _futureEvents,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Padding(padding: EdgeInsets.all(5));
+          return const Padding(padding: EdgeInsets.all(5));
         }
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Padding(padding: EdgeInsets.all(5));
+          return const Padding(padding: EdgeInsets.all(5));
         }
 
-        List<Widget> eventWidgets = snapshot.data!.map((event) {
-          String key = event["id"].toString();
+        final eventWidgets = snapshot.data!.map((event) {
+          final key = event["id"].toString();
           return DiaryCardEventDisplay(
             eventName: event["title"].toString(),
             shortDescription: event["shortDescription"].toString(),
             trashCallback: () => _showDeleteConfirmation(context, key),
             editCallback: () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) => DiaryCardNewEvent(
-                  primaryKey: key,
-                  date: widget.date,
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DiaryCardNewEvent(
+                    primaryKey: key,
+                    date: widget.date,
+                  ),
                 ),
-              )).then((_) => _refresh());
+              ).then((_) => _refresh());
             },
           );
         }).toList();
@@ -79,15 +90,15 @@ class _DiaryCardEventListState extends State<DiaryCardEventList> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Bist du sicher?"),
-        content: Text("Willst du dieses Ereignis wirklich löschen?"),
+        title: const Text("Bist du sicher?"),
+        content: const Text("Willst du dieses Ereignis wirklich löschen?"),
         actions: [
           TextButton(
-            child: Text("Abbrechen"),
+            child: const Text("Abbrechen"),
             onPressed: () => Navigator.of(context).pop(),
           ),
           TextButton(
-            child: Text("Löschen"),
+            child: const Text("Löschen"),
             onPressed: () {
               Navigator.of(context).pop();
               _deleteEvent(eventKey);
