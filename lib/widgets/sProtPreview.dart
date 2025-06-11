@@ -1,4 +1,4 @@
-import 'package:dbt4c_rebuild/helpers/contentCard.dart';
+import 'package:dbt4c_rebuild/widgets/contentCard.dart';
 import 'package:flutter/material.dart';
 
 class SProtPreview extends StatefulWidget {
@@ -35,9 +35,7 @@ class _SProtPreviewState extends State<SProtPreview> {
           fontSize: 16,
         ),
       ),
-      Padding(padding: EdgeInsets.all(30)),
-      Divider(),
-      Padding(padding: EdgeInsets.all(5)),
+      Padding(padding: EdgeInsets.all(15)),
       Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -48,12 +46,23 @@ class _SProtPreviewState extends State<SProtPreview> {
           ),
           Padding(padding: EdgeInsets.all(5)),
           Text(
-            "Bester Skill: ${widget.bestSkill.toString()} ${widget.bestValue.toString()}",
+            "Bester Skill: ",
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 16),
           ),
         ],
       ),
+
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "${widget.bestSkill.toString()} ${widget.bestValue.toString()}",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white, fontSize: 16),)
+        ],
+      ),
+
       Row(
         mainAxisSize: MainAxisSize.min,
         children: [

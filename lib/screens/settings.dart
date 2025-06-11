@@ -1,7 +1,7 @@
-import 'package:dbt4c_rebuild/helpers/abstactDatabaseService.dart';
+import 'package:dbt4c_rebuild/dataHandlers/database.dart';
 import 'package:flutter/material.dart';
-import 'package:dbt4c_rebuild/helpers/mainContainer.dart';
-import 'package:dbt4c_rebuild/helpers/default_subAppBar.dart';
+import 'package:dbt4c_rebuild/widgets/mainContainer.dart';
+import 'package:dbt4c_rebuild/widgets/default_subAppBar.dart';
 
 class SettingsMenu extends StatefulWidget {
   const SettingsMenu({super.key});
@@ -13,8 +13,10 @@ class SettingsMenu extends StatefulWidget {
 class _SettingsMenuState extends State<SettingsMenu> {
   // Map für Todos – passe diese Einträge nach Bedarf an
   Map<String, bool> todos = {
-    "Implement Database Encryption": false,
-    "Rewrite Entire Database": false,
+    "Rewrite Entire Database": true,
+    "Blueprint layout generator": true,
+    "Fix Skill Protocoll summary display": false,
+    "Implement support for utf8": false,
     "Implement Notifications": false,
     "Implement some Skill-Wiki like thing": false,
     "experiment with locally hosted LLM as Skillfinder": false,
@@ -47,8 +49,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
                       child: ElevatedButton(
                         onPressed: () {
                           // Löscht DiaryCardEvents und DiaryCard
-                          AbstractDatabaseService.clearTable("DiaryCardEvents");
-                          AbstractDatabaseService.clearTable("DiaryCard");
+                          DatabaseProvider.yeetDB();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.redAccent,
@@ -65,7 +66,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
                       child: ElevatedButton(
                         onPressed: () {
                           // Löscht SkillProtocoll
-                          AbstractDatabaseService.clearTable("SkillProtocoll");
+                          DatabaseProvider.yeetDB();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orangeAccent,
@@ -85,7 +86,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
                   child: Container(
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.3),
+                      color: Color.fromRGBO(0, 0, 0, .3),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: ListView(

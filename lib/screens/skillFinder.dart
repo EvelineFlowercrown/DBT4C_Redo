@@ -1,12 +1,12 @@
 import 'dart:collection';
 import 'package:dbt4c_rebuild/helpers/stringUtil.dart';
 import 'package:dbt4c_rebuild/helpers/abstactDatabaseService.dart';
-import 'package:dbt4c_rebuild/helpers/dCardPreview.dart';
+import 'package:dbt4c_rebuild/widgets/dCardPreview.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:dbt4c_rebuild/helpers/mainContainer.dart';
-import 'package:dbt4c_rebuild/helpers/default_subAppBar.dart';
-import 'package:dbt4c_rebuild/helpers/contentCard.dart';
+import 'package:dbt4c_rebuild/widgets/mainContainer.dart';
+import 'package:dbt4c_rebuild/widgets/default_subAppBar.dart';
+import 'package:dbt4c_rebuild/widgets/contentCard.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'diarycardtemplate.dart';
@@ -76,8 +76,6 @@ class _SkillFinderState extends State<SkillFinderState>{
     for(String key in neededKeys){
       returnMap.putIfAbsent(key, () => " - ");}
     await getDates();
-    print(eventList.events.keys);
-    print("hi");
     if(eventList.events.containsKey(selectedDate!)) {
       Map<String,String> data = await AbstractDatabaseService.directRead("DiaryCard", DateFormat('dd.MM.yyyy').format(selectedDate!));
       for(String key in returnMap.keys){

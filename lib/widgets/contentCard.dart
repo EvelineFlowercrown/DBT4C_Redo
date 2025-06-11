@@ -4,7 +4,8 @@ class ContentCard extends StatefulWidget {
   final List<Widget> children;
   final doubleX;
   final doubleY;
-  const ContentCard({super.key, required this.children, required this.doubleX, this.doubleY = 0});
+  final cardTitle;
+  const ContentCard({super.key, required this.children, required this.doubleX, this.doubleY = 0, this.cardTitle = ""});
 
   @override
   _ContentCardState createState() => _ContentCardState();
@@ -35,7 +36,17 @@ class _ContentCardState extends State<ContentCard> {
         shadowColor: Colors.transparent,
         child: Padding(padding: EdgeInsets.all(10),
             child: Column(
-              children: widget.children
+              children: [if (widget.cardTitle != "")
+                ...[
+                  Padding(padding: EdgeInsets.all(5)),
+                  Text(
+                    widget.cardTitle,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  Padding(padding: EdgeInsets.all(15)),
+                ],
+                ...widget.children,
+              ]
           )
         ),
       ),

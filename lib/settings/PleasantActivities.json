@@ -1,0 +1,453 @@
+[
+  {
+    "name": "Spazieren gehen",
+    "kosten": 0,
+    "aufwand": 0
+  },
+  {
+    "name": "Lesen (Buch)",
+    "kosten": 1,
+    "aufwand": 0
+  },
+  {
+    "name": "Meditation",
+    "kosten": 0,
+    "aufwand": 0
+  },
+  {
+    "name": "Zeichnen",
+    "kosten": 1,
+    "aufwand": 1
+  },
+  {
+    "name": "Musik hören",
+    "kosten": 0,
+    "aufwand": 0
+  },
+  {
+    "name": "Tagebuch schreiben",
+    "kosten": 0,
+    "aufwand": 0
+  },
+  {
+    "name": "Joggen",
+    "kosten": 0,
+    "aufwand": 1
+  },
+  {
+    "name": "Fahrrad fahren",
+    "kosten": 2,
+    "aufwand": 1
+  },
+  {
+    "name": "Kochen",
+    "kosten": 1,
+    "aufwand": 2
+  },
+  {
+    "name": "Backen",
+    "kosten": 1,
+    "aufwand": 2
+  },
+  {
+    "name": "Gärtnern (Balkon/klein)",
+    "kosten": 2,
+    "aufwand": 2
+  },
+  {
+    "name": "Schreiben (z. B. Geschichten)",
+    "kosten": 0,
+    "aufwand": 1
+  },
+  {
+    "name": "Fotografieren mit Smartphone",
+    "kosten": 0,
+    "aufwand": 1
+  },
+  {
+    "name": "Spieleabend mit Freunden",
+    "kosten": 1,
+    "aufwand": 2
+  },
+  {
+    "name": "Brettspiele spielen",
+    "kosten": 1,
+    "aufwand": 2
+  },
+  {
+    "name": "Puzzeln",
+    "kosten": 1,
+    "aufwand": 2
+  },
+  {
+    "name": "Origami",
+    "kosten": 0,
+    "aufwand": 1
+  },
+  {
+    "name": "Stricken oder Häkeln",
+    "kosten": 2,
+    "aufwand": 2
+  },
+  {
+    "name": "DIY Bastelprojekte",
+    "kosten": 2,
+    "aufwand": 3
+  },
+  {
+    "name": "Podcast hören",
+    "kosten": 0,
+    "aufwand": 0
+  },
+  {
+    "name": "YouTube-Videos schauen (Lernen)",
+    "kosten": 0,
+    "aufwand": 0
+  },
+  {
+    "name": "Yoga",
+    "kosten": 0,
+    "aufwand": 1
+  },
+  {
+    "name": "Parkour / freie Bewegung",
+    "kosten": 0,
+    "aufwand": 2
+  },
+  {
+    "name": "Zocken (Konsole/PC)",
+    "kosten": 3,
+    "aufwand": 1
+  },
+  {
+    "name": "Online-Kurse machen",
+    "kosten": 1,
+    "aufwand": 2
+  },
+  {
+    "name": "Tanzen (allein zu Hause)",
+    "kosten": 0,
+    "aufwand": 0
+  },
+  {
+    "name": "Tanzen (Verein/Kurs)",
+    "kosten": 3,
+    "aufwand": 3
+  },
+  {
+    "name": "Inline-Skating",
+    "kosten": 2,
+    "aufwand": 2
+  },
+  {
+    "name": "Rollschuhlaufen",
+    "kosten": 2,
+    "aufwand": 2
+  },
+  {
+    "name": "Klettern (Indoor)",
+    "kosten": 3,
+    "aufwand": 3
+  },
+  {
+    "name": "Töpfern",
+    "kosten": 3,
+    "aufwand": 3
+  },
+  {
+    "name": "Aquarellmalerei",
+    "kosten": 2,
+    "aufwand": 2
+  },
+  {
+    "name": "Kreuzworträtsel lösen",
+    "kosten": 0,
+    "aufwand": 0
+  },
+  {
+    "name": "Sudoku spielen",
+    "kosten": 0,
+    "aufwand": 0
+  },
+  {
+    "name": "Musikinstrument lernen",
+    "kosten": 3,
+    "aufwand": 4
+  },
+  {
+    "name": "Kalligraphie",
+    "kosten": 2,
+    "aufwand": 2
+  },
+  {
+    "name": "Freundschaftsarmbänder knüpfen",
+    "kosten": 1,
+    "aufwand": 1
+  },
+  {
+    "name": "Seifenherstellung",
+    "kosten": 2,
+    "aufwand": 3
+  },
+  {
+    "name": "Kerzen gießen",
+    "kosten": 2,
+    "aufwand": 3
+  },
+  {
+    "name": "Modellbau",
+    "kosten": 3,
+    "aufwand": 4
+  },
+  {
+    "name": "Lego bauen",
+    "kosten": 2,
+    "aufwand": 2
+  },
+  {
+    "name": "Schach spielen",
+    "kosten": 0,
+    "aufwand": 1
+  },
+  {
+    "name": "Geocaching",
+    "kosten": 1,
+    "aufwand": 2
+  },
+  {
+    "name": "Vögel beobachten",
+    "kosten": 0,
+    "aufwand": 1
+  },
+  {
+    "name": "Sternenhimmel beobachten",
+    "kosten": 0,
+    "aufwand": 1
+  },
+  {
+    "name": "Freiwilligenarbeit",
+    "kosten": 0,
+    "aufwand": 2
+  },
+  {
+    "name": "Spendenaktionen organisieren",
+    "kosten": 0,
+    "aufwand": 3
+  },
+  {
+    "name": "Haustierpflege",
+    "kosten": 3,
+    "aufwand": 3
+  },
+  {
+    "name": "Aquaristik",
+    "kosten": 4,
+    "aufwand": 4
+  },
+  {
+    "name": "Terraristik",
+    "kosten": 4,
+    "aufwand": 4
+  },
+  {
+    "name": "Angeln",
+    "kosten": 3,
+    "aufwand": 3
+  },
+  {
+    "name": "Camping",
+    "kosten": 3,
+    "aufwand": 4
+  },
+  {
+    "name": "Wandern",
+    "kosten": 1,
+    "aufwand": 2
+  },
+  {
+    "name": "Klettern (Outdoor)",
+    "kosten": 4,
+    "aufwand": 4
+  },
+  {
+    "name": "Skifahren",
+    "kosten": 5,
+    "aufwand": 5
+  },
+  {
+    "name": "Snowboarden",
+    "kosten": 5,
+    "aufwand": 5
+  },
+  {
+    "name": "Schwimmen",
+    "kosten": 2,
+    "aufwand": 2
+  },
+  {
+    "name": "Tauchen",
+    "kosten": 5,
+    "aufwand": 5
+  },
+  {
+    "name": "Segeln",
+    "kosten": 5,
+    "aufwand": 5
+  },
+  {
+    "name": "Reiten",
+    "kosten": 4,
+    "aufwand": 4
+  },
+  {
+    "name": "Freunde besuchen",
+    "kosten": 1,
+    "aufwand": 2
+  },
+  {
+    "name": "Telefonieren mit Familie",
+    "kosten": 0,
+    "aufwand": 1
+  },
+  {
+    "name": "Briefe oder E-Mails schreiben",
+    "kosten": 0,
+    "aufwand": 1
+  },
+  {
+    "name": "Kaffee trinken gehen",
+    "kosten": 2,
+    "aufwand": 2
+  },
+  {
+    "name": "Ins Kino gehen",
+    "kosten": 3,
+    "aufwand": 3
+  },
+  {
+    "name": "Museumsbesuch",
+    "kosten": 2,
+    "aufwand": 3
+  },
+  {
+    "name": "Stadtführung mitmachen",
+    "kosten": 2,
+    "aufwand": 3
+  },
+  {
+    "name": "Flohmarkt besuchen",
+    "kosten": 1,
+    "aufwand": 2
+  },
+  {
+    "name": "Spenden für einen guten Zweck",
+    "kosten": 1,
+    "aufwand": 2
+  },
+  {
+    "name": "Nachbarschaftshilfe leisten",
+    "kosten": 0,
+    "aufwand": 2
+  },
+  {
+    "name": "Blumen pflücken",
+    "kosten": 0,
+    "aufwand": 1
+  },
+  {
+    "name": "Picknick im Park",
+    "kosten": 1,
+    "aufwand": 2
+  },
+  {
+    "name": "Sonnenuntergang beobachten",
+    "kosten": 0,
+    "aufwand": 1
+  },
+  {
+    "name": "Sterne beobachten",
+    "kosten": 0,
+    "aufwand": 1
+  },
+  {
+    "name": "Tiere im Tierpark besuchen",
+    "kosten": 2,
+    "aufwand": 3
+  },
+  {
+    "name": "Mit Kindern spielen",
+    "kosten": 0,
+    "aufwand": 2
+  },
+  {
+    "name": "Kochkurs besuchen",
+    "kosten": 3,
+    "aufwand": 3
+  },
+  {
+    "name": "Tanzkurs besuchen",
+    "kosten": 3,
+    "aufwand": 3
+  },
+  {
+    "name": "Fremdsprache lernen",
+    "kosten": 2,
+    "aufwand": 3
+  },
+  {
+    "name": "Online-Workshop teilnehmen",
+    "kosten": 1,
+    "aufwand": 2
+  },
+  {
+    "name": "Meditationskurs besuchen",
+    "kosten": 2,
+    "aufwand": 3
+  },
+  {
+    "name": "Selbstverteidigungskurs",
+    "kosten": 3,
+    "aufwand": 3
+  },
+  {
+    "name": "Karaoke singen",
+    "kosten": 1,
+    "aufwand": 2
+  },
+  {
+    "name": "Improvisationstheater",
+    "kosten": 2,
+    "aufwand": 3
+  },
+  {
+    "name": "Fotobuch gestalten",
+    "kosten": 2,
+    "aufwand": 3
+  },
+  {
+    "name": "Blog schreiben",
+    "kosten": 0,
+    "aufwand": 2
+  },
+  {
+    "name": "Podcast aufnehmen",
+    "kosten": 2,
+    "aufwand": 3
+  },
+  {
+    "name": "Videotagebuch führen",
+    "kosten": 1,
+    "aufwand": 2
+  },
+  {
+    "name": "Online-Gaming mit Freunden",
+    "kosten": 2,
+    "aufwand": 2
+  },
+  {
+    "name": "Virtuelle Museumsbesuche",
+    "kosten": 0,
+    "aufwand": 1
+  }
+]
+
