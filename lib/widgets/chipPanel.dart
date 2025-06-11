@@ -1,13 +1,16 @@
 import 'package:dbt4c_rebuild/widgets/booleanSelectionChip.dart';
 import 'package:dbt4c_rebuild/widgets/wrapCard.dart';
 import 'package:flutter/material.dart';
+import 'package:dbt4c_rebuild/dataHandlers/dataHandler.dart';
+
 
 class ChipPanel extends StatefulWidget {
   final double doubleX;
-  final String text;
-  Map<String,bool> chips;
-  ValueChanged<String>? onChanged;
-  ChipPanel({super.key, this.doubleX  = 1.1, required this.text, required this.chips, this.onChanged});
+  final String? text;
+  final List<String> keys;
+  final DataHandler dataHandler;
+  final String? primaryKey;
+  const ChipPanel({super.key, this.doubleX  = 1.1, this.text, required this.dataHandler, required this.keys,required this.primaryKey});
   
 
   @override
@@ -15,22 +18,22 @@ class ChipPanel extends StatefulWidget {
 }
 
 class _ChipPanelState extends State<ChipPanel> {
+
   List<Widget> generateChildren(){
     List<Widget> output = [];
-    for (var key in widget.chips.keys) {
+    for (var key in widget.keys) {
       output.add(
           BooleanSelectionChip(
             text: key,
             icon: Icons.check_box_outline_blank,
             onChanged: (bool){
-              widget.chips[key] = bool;
-              widget.onChanged!(key);
+              widget.dataHandler.getBooleanData()[key] = bool;
+              widget.dataHandler.saveData(widget.primaryKey!);
               },
             iconPressed: Icons.check_box_outlined,
-            isPressed: widget.chips[key]! == true,
+            isPressed: widget.dataHandler.getBooleanData()[key]! == true,
           )
       );
-      //print("adding chip: $key = ${chipStates[key] == "true"}");
     }
     return output;
   }
@@ -40,7 +43,7 @@ class _ChipPanelState extends State<ChipPanel> {
   Widget build(BuildContext context) {
     return WrapCard(
         doubleX: widget.doubleX,
-        text: widget.text,
+        text: widget.text != null ? widget.text! : "",
         children: generateChildren());
   }
 }

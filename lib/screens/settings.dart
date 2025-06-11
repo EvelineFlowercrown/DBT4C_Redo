@@ -13,8 +13,10 @@ class SettingsMenu extends StatefulWidget {
 class _SettingsMenuState extends State<SettingsMenu> {
   // Map für Todos – passe diese Einträge nach Bedarf an
   Map<String, bool> todos = {
-    "Implement Database Encryption": false,
-    "Rewrite Entire Database": false,
+    "Rewrite Entire Database": true,
+    "Blueprint layout generator": true,
+    "Fix Skill Protocoll summary display": false,
+    "Implement support for utf8": false,
     "Implement Notifications": false,
     "Implement some Skill-Wiki like thing": false,
     "experiment with locally hosted LLM as Skillfinder": false,

@@ -38,11 +38,15 @@ abstract class LayoutGenerator{
             break;
 
           case "ChipPanel":
+            List<String> keys = [];
+            for (final item in element["content"] ?? []) {
+              keys.add(item.toString());
+            }
             if (element.containsKey("label")) {
-              children.add(generateChipPanel(primaryKey, dataHandler, element["label"]));
+              children.add(generateChipPanel(primaryKey, dataHandler, element["label"], keys));
             }
             else{
-              children.add(generateChipPanel(primaryKey, dataHandler, ""));
+              children.add(generateChipPanel(primaryKey, dataHandler, "", keys));
             }
             break;
 
@@ -108,13 +112,13 @@ abstract class LayoutGenerator{
     return children;
   }
 
-  static Widget generateChipPanel(String? primaryKey, DataHandler dataHandler, String text){
+  static Widget generateChipPanel(String? primaryKey, DataHandler dataHandler, String text, List<String> keys){
+
     return ChipPanel(
         text: text,
-        chips: dataHandler.getBooleanData(),
-        onChanged: (String key){
-          ConfigHandler.diaryCardEventDataHandler.saveData(primaryKey);
-        }
+        dataHandler: dataHandler,
+        keys: keys,
+        primaryKey: primaryKey,
     );
 
   }
