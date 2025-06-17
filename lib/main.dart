@@ -1,7 +1,6 @@
 import 'package:dbt4c_rebuild/screens/diarycardCalendar.dart';
 import 'package:flutter/material.dart';
 import 'package:dbt4c_rebuild/widgets/menu_button.dart';
-import 'package:flutter/services.dart';
 import 'package:dbt4c_rebuild/screens/skillProtocollCalendar.dart';
 import 'package:dbt4c_rebuild/dataHandlers/configHandler.dart';
 
