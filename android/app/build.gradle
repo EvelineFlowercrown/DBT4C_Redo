@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.dbt4c_rebuild"
-    compileSdk = 34  // Set the latest SDK version you support
+    compileSdk = 35  // Set the latest SDK version you support
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

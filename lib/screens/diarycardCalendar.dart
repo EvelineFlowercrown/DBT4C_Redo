@@ -168,8 +168,8 @@ class _DiaryCardCalendarState extends State<DiaryCardCalendarState> {
                           eventNames: entry.stringData.take(3).toList(), // max 3 Titel
                           newWay: entry.intData.isNotEmpty ? entry.intData[0].toString() : "-",
                           mood: entry.intData.length > 1 ? entry.intData[1].toString() : "-",
-                          tension: entry.intData.length > 2 ? entry.intData[2].toString() : "-",
-                          misery: entry.intData.length > 3 ? entry.intData[3].toString() : "-",
+                          tension: entry.intData.length > 2 ? entry.intData[3].toString() : "-",
+                          misery: entry.intData.length > 3 ? entry.intData[2].toString() : "-",
                         );
                       } else {
                         return ContentCard(
