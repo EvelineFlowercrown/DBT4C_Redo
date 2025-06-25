@@ -1,0 +1,9 @@
+getcalendardata not averaging over stress values for displaying preview
+
+skillprotocollcalendar moodring always red
+
+skillprotocoll preview has wrong icons
+
+skillprotocoll preview displays internal skill name, not displayname
+
+skillprotocoll preview achtsamkeit always false

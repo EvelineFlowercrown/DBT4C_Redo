@@ -20,6 +20,8 @@ abstract class ConfigHandler {
   static List<String> sProtTextFields = [];
   static List<String> sProtSliders = [];
 
+  static Map<String,String> SkillNames = {};
+
   static late DiaryCardDataHandler diaryCardDataHandler;
   static late SkillProtocollDataHandler skillProtocollDataHandler;
   static late DiaryCardEventDataHandler diaryCardEventDataHandler;
@@ -48,6 +50,7 @@ abstract class ConfigHandler {
   static initSkillProtocollConfig() async {
     final yamlString = await rootBundle.loadString(
         'lib/settings/SkillProtocoll/SkillProtocollBlueprint.yaml');
+    extractSkillNames(yamlString);
     skillProtocollDataHandler = SkillProtocollDataHandler(
         extractTextfields(yamlString),
         extractSliders(yamlString),
@@ -128,5 +131,27 @@ abstract class ConfigHandler {
 
     debugPrint("ConfigHandler.extractUniqueChips", "Found ${chipSet.length} chips");
     return chipSet.toList();
+  }
+
+  static void extractSkillNames(String yamlString){
+    final blueprint = loadYaml(yamlString);
+    final elementList = blueprint["Layout"];
+
+    for (final element in elementList) {
+      final content = element['content'];
+      if (content is YamlList) {
+        for (final item in content) {
+          if (item is YamlMap && (item['type'] == 'slider')) {
+            final id = item['id'];
+            final displayName = item['label'];
+            if (id != null && displayName != null) {
+              SkillNames.putIfAbsent(id, () => displayName);
+              debugAddElement("ConfigHandler.extractSkillNames", id.toString()+"->"+displayName.toString(), "SkillNames");
+            }
+          }
+        }
+      }
+    }
+    debugPrint("ConfigHandler.extractSkillNames", "Found ${SkillNames.length} Skills");
   }
 }

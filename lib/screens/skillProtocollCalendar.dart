@@ -35,7 +35,7 @@ class _SkillProtocollCalendarState extends State<SkillProtocollCalendarState> {
   DateTime selectedDate = DateTime.now();
   Map<String, (List<int>, List<String>)> rawCalendarData = {};
 
-  // Future, das die Eventtitel lädt.
+
   late Future<void> _loadCalendarFuture;
 
   Future<void> fetchRawCalendarData() async {
@@ -169,8 +169,10 @@ class _SkillProtocollCalendarState extends State<SkillProtocollCalendarState> {
                         return SProtPreview(
                           skillOfTheWeek: entry.stringData.isNotEmpty ? entry
                               .stringData[0] : "-",
-                          bestSkill: entry.stringData.length > 1 ? entry
-                              .stringData[1] : "-",
+                          bestSkill: ConfigHandler.SkillNames.containsKey(
+                              entry.stringData.length > 1 ? entry.stringData[1] : '')
+                              ? ConfigHandler.SkillNames[entry.stringData[1]]!
+                              : "-",
                           mindfulness: entry.stringData.length > 2 ? entry
                               .stringData[2] : "-",
                           bestValue: entry.intData.isNotEmpty ? entry.intData[0]

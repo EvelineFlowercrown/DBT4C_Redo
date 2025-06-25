@@ -176,7 +176,9 @@ class DiaryCardDataHandler implements DataHandler{
         d.newWaySlider          AS newWay,
         d.moodSlider            AS mood,
         d.miserySlider          AS misery,
-        d.trustInTherapySlider  AS trust,
+        d.tensionSlider1  AS tension1,
+        d.tensionSlider2  AS tension2,
+        d.tensionSlider3  AS tension3,
         COALESCE(
           (
             SELECT GROUP_CONCAT(title, '||')
@@ -206,11 +208,12 @@ class DiaryCardDataHandler implements DataHandler{
     final result = <String, (List<int>, List<String>)>{};
     for (var row in rows) {
       final date = row['date'] as String;
+      final avgTension = (((row['tension1'] as int? ?? 0)+(row['tension2'] as int? ?? 0)+(row['tension3'] as int? ?? 0))/3).floor();
       final sliders = [
         (row['newWay'] as int?) ?? -1,
         (row['mood'] as int?) ?? -1,
         (row['misery'] as int?) ?? -1,
-        (row['trust'] as int?) ?? -1,
+        (avgTension as int?) ?? -1,
       ];
 
       // Process concatenated titles
