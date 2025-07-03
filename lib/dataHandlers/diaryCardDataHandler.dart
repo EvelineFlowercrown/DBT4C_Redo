@@ -92,6 +92,11 @@ class DiaryCardDataHandler implements DataHandler{
       debugSaveDB("DiaryCardDataHandler.saveData", sliderData[slider]!.toString(), slider, "DiaryCardEntries");
     }
 
+    for (var chip in chipData.keys) {
+      data[chip] = chipData[chip]! ? 1 : 0;
+      debugSaveDB("DiaryCardDataHandler.saveData", sliderData[chip]!.toString(), chip, "DiaryCardEntries");
+    }
+
     // Insert or replace entry into database
     await db.insert(
       'DiaryCardEntries',

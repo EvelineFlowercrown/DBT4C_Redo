@@ -1,5 +1,3 @@
 skillprotocollcalendar moodring always red
 
 skillprotocoll preview has wrong icons
-
-skillprotocoll preview achtsamkeit always false

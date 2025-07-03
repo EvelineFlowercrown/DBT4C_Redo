@@ -92,6 +92,12 @@ class SkillProtocollDataHandler implements DataHandler{
       debugSaveDB("SkillProtocollDataHandler.saveData", sliderData[slider]!.toString(), slider, "SkillProtocollEntries");
     }
 
+    // Add Chip Values to Data Map
+    for (var chip in chipData.keys) {
+      data[chip] = chipData[chip]! ? 1 : 0;
+      debugSaveDB("SkillProtocollDataHandler.saveData", chipData[chip]!.toString(), chip, "SkillProtocollEntries");
+    }
+
     // Insert or replace entry into database
     await db.insert(
       'SkillProtocollEntries',
@@ -186,6 +192,7 @@ class SkillProtocollDataHandler implements DataHandler{
   ''';
 
     debugPrint("SkillProtocollDataHandler.fetchSkillProtocolCalendarData", "running SQL with filters: $prev.$year, $month.$year, $next.$year");
+
     final db = await DatabaseProvider().database;
     final rows = await db.rawQuery(sql);
 
@@ -212,8 +219,14 @@ class SkillProtocollDataHandler implements DataHandler{
           }
         }
       }
-
-      bool mindfulness = chipColumns.any((chip) => (row[chip] as int? ?? 0) == 1);
+      bool mindfulness = false;
+      for(var chip in chipColumns){
+        int value = row[chip] as int? ?? 0;
+        if(value == 1){
+          mindfulness = true;
+          break;
+        }
+      }
 
       print('fetchSkillProtocolCalendarData: $date -> skillOfTheWeek=$skillOfTheWeek, bestSkill=$bestSkill, used=$usedCount, mindfulness=$mindfulness');
       result[date] = ([highestValue,usedCount],[skillOfTheWeek, bestSkill, mindfulness.toString()]);
