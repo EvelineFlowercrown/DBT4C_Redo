@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_calendar_carousel:
   image_picker:
-  image_cropper: ^5.0.1
+  image_cropper: 9.1.0
   shared_preferences:
   permission_handler:
   sqflite:
