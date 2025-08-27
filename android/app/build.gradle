@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.dbt4c_rebuild"
-    compileSdk = 35  // Set the latest SDK version you support
+    compileSdk = 36  // Set the latest SDK version you support
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -21,8 +21,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.dbt4c_rebuild"
-        minSdk = 21   // Ensure it's at least 21 for compatibility
-        targetSdk = 33   // Set the latest stable SDK
+        minSdkVersion flutter.minSdkVersion   // Ensure it's at least 21 for compatibility
+        targetSdk = 36   // Set the latest stable SDK
         versionCode = 1  // Update when releasing new versions
         versionName = "1.0.0"
     }
