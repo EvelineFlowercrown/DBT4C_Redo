@@ -25,6 +25,8 @@ final Map<String, IconData> iconMap = {
   'add': Icons.add,
   'location_on': Icons.location_on,
   'info': Icons.info,
+  'remove_red_eye_outlined': Icons.remove_red_eye_outlined,
+  'summarize_outlined': Icons.summarize_outlined,
 };
 
 IconData? getIcon(String iconName) {

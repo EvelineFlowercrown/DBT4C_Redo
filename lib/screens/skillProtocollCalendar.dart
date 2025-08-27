@@ -1,15 +1,15 @@
 import 'dart:async';
-import 'package:dbt4c_rebuild/widgets/contentCard.dart';
-import 'package:dbt4c_rebuild/widgets/sProtPreview.dart';
-import 'package:dbt4c_rebuild/screens/skillProtocollTemplate.dart';
-import 'package:flutter/material.dart';
+import 'package:dbt4c_rebuild/dataHandlers/configHandler.dart';
 import 'package:dbt4c_rebuild/widgets/default_subAppBar.dart';
 import 'package:dbt4c_rebuild/widgets/mainContainer.dart';
+import 'package:dbt4c_rebuild/widgets/sProtPreview.dart';
+import 'package:dbt4c_rebuild/widgets/contentCard.dart';
+import 'package:dbt4c_rebuild/screens/skillProtocollTemplate.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:intl/intl.dart';
-import 'package:dbt4c_rebuild/dataHandlers/configHandler.dart';
-import '../helpers/calendarEntry.dart';
-import '../widgets/moodRing.dart';
+import 'package:dbt4c_rebuild/widgets/moodRing.dart';
+import 'package:dbt4c_rebuild/helpers/calendarEntry.dart';
 
 
 class SkillProtocollCalendar extends StatelessWidget {
@@ -65,7 +65,7 @@ class _SkillProtocollCalendarState extends State<SkillProtocollCalendarState> {
           stringData: stringData,
           date: date,
           // Optionally set an icon based on mood (second slider)
-          icon: Moodring(mood: intData[1]),
+          icon: Moodring(mood: intData[1]*30),
         );
 
         // Add to map
