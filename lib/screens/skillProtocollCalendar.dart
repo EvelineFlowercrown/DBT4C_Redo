@@ -30,7 +30,7 @@ class SkillProtocollCalendarState extends StatefulWidget {
 
 class _SkillProtocollCalendarState extends State<SkillProtocollCalendarState> {
   EventList<CalendarEntry> eventList = EventList(events: {});
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   Map<String, (List<int>, List<String>)> rawCalendarData = {};
 
 
@@ -87,7 +87,7 @@ class _SkillProtocollCalendarState extends State<SkillProtocollCalendarState> {
   @override
   void initState() {
     super.initState();
-    selectedDate = DateTime.now();
+    selectedDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
     _loadCalendarFuture = () async {
       await fetchRawCalendarData();

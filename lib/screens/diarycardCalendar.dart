@@ -31,7 +31,7 @@ class _DiaryCardCalendarState extends State<DiaryCardCalendarState> {
   // Enthält die Events für das CalendarCarousel
   EventList<CalendarEntry> eventList = EventList(events: {});
   // Aktuell ausgewähltes Datum
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   // Zur Anzeige der Eventtitel (maximal 3)
   List<String> eventTitles = ["Keine Events Vorhanden", "", ""];
   //raw calendar data
@@ -93,7 +93,7 @@ class _DiaryCardCalendarState extends State<DiaryCardCalendarState> {
   @override
   void initState() {
     super.initState();
-    selectedDate = DateTime.now();
+    selectedDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
     _loadCalendarFuture = () async {
       await fetchRawCalendarData();
