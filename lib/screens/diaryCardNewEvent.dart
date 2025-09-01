@@ -14,9 +14,7 @@ class DiaryCardNewEvent extends StatelessWidget{
   @override
   Widget build(BuildContext context)
   {
-    return MaterialApp(
-      home: DiaryCardNewEventState(primaryKey: primaryKey, date: date,),
-    );
+    return DiaryCardNewEventState(primaryKey: primaryKey, date: date,);
   }
 }
 

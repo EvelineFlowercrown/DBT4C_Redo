@@ -10,11 +10,9 @@ class SkillProtocollTemplate extends StatelessWidget {
   const SkillProtocollTemplate({super.key, required this.selectedDate});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SkillProtocollTemplateState(
+    return SkillProtocollTemplateState(
         selectedDate: selectedDate,
-      ),
-    );
+      );
   }
 }
 

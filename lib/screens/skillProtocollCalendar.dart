@@ -17,9 +17,7 @@ class SkillProtocollCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SkillProtocollCalendarState(),
-    );
+    return SkillProtocollCalendarState();
   }
 }
 

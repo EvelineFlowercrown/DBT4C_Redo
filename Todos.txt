@@ -1,1 +1,7 @@
-skillprotocollcalendar moodring always red
+blueprint implementation for calendar
+
+utf8 support
+
+settings from qr code support
+
+preview in calendar only displays stuff after tapping it when first entering the calendar

@@ -16,9 +16,7 @@ class DiaryCardCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: DiaryCardCalendarState(),
-    );
+    return DiaryCardCalendarState();
   }
 }
 
@@ -195,7 +193,7 @@ class _DiaryCardCalendarState extends State<DiaryCardCalendarState> {
                           selectedDate: DateFormat('dd.MM.yyyy').format(selectedDate),
                         ),
                       ),
-                    ).then(onGoBack);
+                    );
                   },
                 ),
               ],
